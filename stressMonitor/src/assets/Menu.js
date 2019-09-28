@@ -21,7 +21,7 @@ const Menu = () => (
 
 const styles = StyleSheet.create({
     menuContainer: {
-        marginRight: 10
+        marginRight: 20
     },
 });
 

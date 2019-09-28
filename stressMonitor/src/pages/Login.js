@@ -4,6 +4,7 @@ import { SafeAreaView, StyleSheet, View, Text, StatusBar, TextInput, TouchableOp
 import * as _ from 'lodash';
 
 import Rectangle from '../assets/Rectangle';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import firebase from 'react-native-firebase';
 
@@ -12,20 +13,22 @@ class Login extends Component {
     state = {
         email: '',
         password: '',
-        isAuthenticated: false
+        isAuthenticated: false,
+        isVisible: false,
     }
     
-    login = async () => {
+    login = () => {
+        this.setState({ isVisible: true });
         const { email, password } = this.state;
-        try {
-            const user = await firebase.auth().signInWithEmailAndPassword(email, password);
-            this.setState({ isAuthenticated: true, email: '', password: '' });
-            console.log(user.user.email);
-            console.log(this.state.isAuthenticated);
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => {
+            this.setState({ isVisible: false })
+            this.setState({ isAuthenticated: true });
             this.props.navigation.navigate('Main');
-        } catch (error) {
-            console.log(error);
-        }
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 
     register = async () => {
@@ -72,6 +75,9 @@ class Login extends Component {
                                 </Text>
                             </View>
                             <View style={styles.containerButton}>
+                                <Spinner 
+                                    visible={this.state.isVisible}
+                                    />
                                 <TouchableOpacity 
                                     style={styles.button}
                                     onPress={this.login}

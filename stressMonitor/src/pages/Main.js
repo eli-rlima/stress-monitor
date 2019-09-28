@@ -48,7 +48,12 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor:'#87CEFA',
         width: 253,
-        height: "30%"
+        height: "30%",
+        shadowColor: '#000',
+        shadowOffset: {width: 1, height: 8},
+        shadowOpacity: 0.5,
+        shadowRadius: 6,
+        elevation: 4,
     },
     textButton: {
         textAlign:'center',
@@ -58,9 +63,9 @@ const styles = StyleSheet.create({
         padding: 14
     },
     containerButton:{
-        paddingVertical:30,
+        paddingVertical: 20,
         alignItems: 'center',
-        bottom: 100
+        bottom: 100,
     },
 });
 
