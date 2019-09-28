@@ -1,5 +1,5 @@
 import {Svg, Path} from 'react-native-svg';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import React from 'react';
 
 const Logo = () => (
@@ -9,9 +9,15 @@ const Logo = () => (
 );
 
 const Header = () => (
-    <View>
+    <View style={styles.logoContainer}>
         <Logo /> 
     </View>
-)
+);
+
+const styles = StyleSheet.create({
+    logoContainer: {
+        marginLeft: 10,
+    },  
+})
 
 export default Header;

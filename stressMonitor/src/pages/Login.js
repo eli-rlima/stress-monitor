@@ -19,10 +19,10 @@ class Login extends Component {
         const { email, password } = this.state;
         try {
             const user = await firebase.auth().signInWithEmailAndPassword(email, password);
-            firebase.
             this.setState({ isAuthenticated: true, email: '', password: '' });
             console.log(user.user.email);
             console.log(this.state.isAuthenticated);
+            this.props.navigation.navigate('Main');
         } catch (error) {
             console.log(error);
         }
@@ -74,7 +74,7 @@ class Login extends Component {
                             <View style={styles.containerButton}>
                                 <TouchableOpacity 
                                     style={styles.button}
-                                    onPress={this.register}
+                                    onPress={this.login}
                                     >
                                     <Text style={styles.textButton}>
                                         Login
