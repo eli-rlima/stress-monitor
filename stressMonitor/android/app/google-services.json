@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "625879933552",
+    "firebase_url": "https://stressmonitor-42210.firebaseio.com",
+    "project_id": "stressmonitor-42210",
+    "storage_bucket": "stressmonitor-42210.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625879933552:android:73374c093e954da5154ab5",
+        "android_client_info": {
+          "package_name": "com.stressmonitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "625879933552-7ov2q7t3of91okkufjqbhb2vovocbl0u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stressmonitor",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "625879933552-96mtv70vp1rapkgvlued4rpis0u45vge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTSBH8tK3LtGJF_0eapYEiC2o8B4OmSx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "625879933552-96mtv70vp1rapkgvlued4rpis0u45vge.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

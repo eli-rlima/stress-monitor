@@ -5,14 +5,38 @@ import * as _ from 'lodash';
 
 import Rectangle from '../assets/Rectangle';
 
-import { NavigationActions } from 'react-navigation'
+import firebase from 'react-native-firebase';
 
 class Login extends Component {
-    onNavigation = NavigationActions.navigate({
-        routeName: 'Main',
-        params: {},
-    });
+    
+    state = {
+        email: '',
+        password: '',
+        isAuthenticated: false
+    }
+    
+    login = async () => {
+        const { email, password } = this.state;
+        try {
+            const user = await firebase.auth().signInWithEmailAndPassword(email, password);
+            firebase.
+            this.setState({ isAuthenticated: true, email: '', password: '' });
+            console.log(user.user.email);
+            console.log(this.state.isAuthenticated);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
+    register = async () => {
+        const { email, password } = this.state;
+        try {
+            const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            console.log(user);
+        }catch (error) {
+            console.log(error);
+        }
+    }
     render() {
         return (
             <Fragment>
@@ -29,14 +53,29 @@ class Login extends Component {
                             </View>
 
                             <View style={styles.viewInput}>
-                                <TextInput style={styles.textInput} placeholder="Email" keyboardType="email-address"/>
-                                <TextInput style={styles.textInput2} placeholder="Senha" keyboardType="default" secureTextEntry={true}/>
+                                <TextInput 
+                                    style={styles.textInput} 
+                                    placeholder="Email" 
+                                    keyboardType="email-address"
+                                    value={this.state.email}
+                                    onChangeText={email => this.setState({email: email})}
+                                    />
+                                <TextInput 
+                                    style={styles.textInput2} 
+                                    placeholder="Senha" 
+                                    secureTextEntry={true}
+                                    value={this.state.password}
+                                    onChangeText={password => this.setState({password: password})}
+                                    />
                                 <Text style={styles.senhaText}>
                                     Esqueceu sua senha?
                                 </Text>
                             </View>
                             <View style={styles.containerButton}>
-                                <TouchableOpacity style={styles.button}>
+                                <TouchableOpacity 
+                                    style={styles.button}
+                                    onPress={this.register}
+                                    >
                                     <Text style={styles.textButton}>
                                         Login
                                     </Text>
