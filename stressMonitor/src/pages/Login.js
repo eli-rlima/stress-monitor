@@ -5,8 +5,14 @@ import * as _ from 'lodash';
 
 import Rectangle from '../assets/Rectangle';
 
+import { NavigationActions } from 'react-navigation'
+
 class Login extends Component {
-    
+    onNavigation = NavigationActions.navigate({
+        routeName: 'Main',
+        params: {},
+    });
+
     render() {
         return (
             <Fragment>
@@ -35,7 +41,7 @@ class Login extends Component {
                                         Login
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity>
+                                <TouchableOpacity >
                                     <Text style={styles.contaText}>
                                         Não tem uma conta?
                                     </Text>
