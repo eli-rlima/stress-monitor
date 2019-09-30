@@ -40,10 +40,9 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         textAlign: "justify",
         fontSize: 20,
-        paddingHorizontal: 40,
+        paddingHorizontal: 35,
         bottom: 250,
-        fontFamily: "Montserrat"
-        
+        fontFamily: 'Montserrat-Regular'
     },
     button: {
         backgroundColor:'#87CEFA',
@@ -57,10 +56,11 @@ const styles = StyleSheet.create({
     },
     textButton: {
         textAlign:'center',
-        fontWeight: "bold",
-        fontSize: 16,
+        fontWeight: "100",
+        fontSize: 18,
         alignItems: "center",
-        padding: 14
+        padding: 14,
+        fontFamily: 'Montserrat-Regular'
     },
     containerButton:{
         paddingVertical: 20,

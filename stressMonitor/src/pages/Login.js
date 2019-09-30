@@ -18,18 +18,24 @@ class Login extends Component {
     }
     
     login = () => {
-        this.setState({ isVisible: true });
+        this.setState({ error: false });
         const { email, password } = this.state;
-        firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(() => {
-            this.setState({ isVisible: false })
-            this.setState({ isAuthenticated: true });
-            this.props.navigation.navigate('Main');
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    }
+        if (email !== '' && password !== '') {
+            this.setState({ isVisible: true});
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(() => {
+                this.setState({ isVisible: false });
+                this.setState({ isAuthenticated: true });
+                this.props.navigation.navigate('Main');
+            })
+            .catch(err => {
+                this.setState({ isVisible: false });
+                this.setState({ error: true });
+                console.log(err);
+            });
+        }
+    } 
+        
 
     register = async () => {
         const { email, password } = this.state;
@@ -70,9 +76,11 @@ class Login extends Component {
                                     value={this.state.password}
                                     onChangeText={password => this.setState({password: password})}
                                     />
-                                <Text style={styles.senhaText}>
-                                    Esqueceu sua senha?
-                                </Text>
+                                <TouchableOpacity >
+                                    <Text style={styles.senhaText}>
+                                        Esqueceu sua senha?
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
                             <View style={styles.containerButton}>
                                 <Spinner 
@@ -99,27 +107,29 @@ class Login extends Component {
         );        
     }
 }
+
 const styles = StyleSheet.create({
     header: {
         margin: 0,
         top: "10%",
         alignItems: "center",
-
     },
     textInput: {
         borderStyle: 'solid',
-        fontSize:20,
+        fontSize:18,
         marginHorizontal: 35,
         backgroundColor: "#87CEFA",
-        marginTop: "30%"
+        marginTop: '40%',
+        fontFamily: 'Montserrat-Regular'
     },
     textInput2: {
         borderStyle: 'solid',
-        fontSize:20,
+        fontSize: 18,
         marginHorizontal: 35,
         backgroundColor: "#87CEFA",
         marginTop: "4%",
         justifyContent: "center",
+        fontFamily: 'Montserrat-Regular'
     },
     viewInput: {
         paddingHorizontal: "5%"
@@ -129,7 +139,8 @@ const styles = StyleSheet.create({
         alignSelf: "flex-end",
         paddingRight: 40,
         fontSize: 14,
-        textDecorationLine: "underline"
+        textDecorationLine: "underline",
+        fontFamily: 'Montserrat-Regular'
     },
     containerButton:{
         paddingVertical:30,
@@ -142,16 +153,18 @@ const styles = StyleSheet.create({
     },
     textButton: {
         textAlign:'center',
-        fontWeight: "bold",
-        fontSize: 16,
+        fontWeight: '100',
+        fontSize: 20,
         alignItems: "center",
-        padding: 16
+        padding: 14,
+        fontFamily: 'Montserrat-Regular'
     },
     contaText: {
         paddingTop: "3%",
         alignItems: "flex-start",
         fontSize: 14,
-        textDecorationLine: "underline"
+        textDecorationLine: "underline",
+        fontFamily: 'Montserrat-Regular'
     },
 });
 
