@@ -15,6 +15,7 @@ class Login extends Component {
         password: '',
         isAuthenticated: false,
         isVisible: false,
+        error: false,
     }
     
     login = () => {
@@ -59,6 +60,9 @@ class Login extends Component {
                         >
                             <View style={styles.header}>
                                <Rectangle />
+                               {this.state.error 
+                               ? <Text style={styles.errorText}>Email e/ou senha inválidos</Text> 
+                               : <Text></Text>}
                             </View>
 
                             <View style={styles.viewInput}>
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
         fontSize:18,
         marginHorizontal: 35,
         backgroundColor: "#87CEFA",
-        marginTop: '40%',
+        marginTop: '27%',
         fontFamily: 'Montserrat-Regular'
     },
     textInput2: {
@@ -166,6 +170,10 @@ const styles = StyleSheet.create({
         textDecorationLine: "underline",
         fontFamily: 'Montserrat-Regular'
     },
+    errorText: {
+        color: 'red',
+        fontFamily: 'Montserrat-Medium'
+    }
 });
 
 export default Login;
