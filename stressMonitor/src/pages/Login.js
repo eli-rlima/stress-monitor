@@ -8,6 +8,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import firebase from 'react-native-firebase';
 
+import Api from '../api';
+
 class Login extends Component {
     
     state = {
@@ -21,6 +23,8 @@ class Login extends Component {
     login = () => {
         this.setState({ error: false });
         const { email, password } = this.state;
+        const nome = 'Elivelton Rodrigues';
+        const idade = '24';
         if (email !== '' && password !== '') {
             this.setState({ isVisible: true});
             firebase.auth().signInWithEmailAndPassword(email, password)
@@ -41,8 +45,16 @@ class Login extends Component {
     register = async () => {
         const { email, password } = this.state;
         try {
-            const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            console.log(user);
+            await firebase.auth().createUserWithEmailAndPassword(email, password);
+            Api.database().ref('Users/').set({
+                nome,
+                email,
+                idade
+            }).then(payload => {
+                console.log(payload);
+            }).catch(err => {
+                console.log(err);
+            });
         }catch (error) {
             console.log(error);
         }
