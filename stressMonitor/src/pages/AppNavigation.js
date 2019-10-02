@@ -1,5 +1,6 @@
 import Login from './Login';
 import Main from './Main';
+import Register from './Register';
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -18,6 +19,12 @@ const AppNavigation = createStackNavigator({
         navigationOptions: {
             headerLeft: Logo,
             headerRight: Menu
+        }
+    },
+    Register: {
+        screen: Register,
+        navigationOptions: {
+            header: null,
         }
     },
 }, {

@@ -23,8 +23,7 @@ class Login extends Component {
     login = () => {
         this.setState({ error: false });
         const { email, password } = this.state;
-        const nome = 'Elivelton Rodrigues';
-        const idade = '24';
+
         if (email !== '' && password !== '') {
             this.setState({ isVisible: true});
             firebase.auth().signInWithEmailAndPassword(email, password)
@@ -39,26 +38,12 @@ class Login extends Component {
                 console.log(err);
             });
         }
-    } 
-        
-
-    register = async () => {
-        const { email, password } = this.state;
-        try {
-            await firebase.auth().createUserWithEmailAndPassword(email, password);
-            Api.database().ref('Users/').set({
-                nome,
-                email,
-                idade
-            }).then(payload => {
-                console.log(payload);
-            }).catch(err => {
-                console.log(err);
-            });
-        }catch (error) {
-            console.log(error);
-        }
     }
+
+    create = () => {
+        this.props.navigation.navigate('Register');
+    }
+    
     render() {
         return (
             <Fragment>
@@ -111,7 +96,10 @@ class Login extends Component {
                                     </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity >
-                                    <Text style={styles.contaText}>
+                                    <Text 
+                                        style={styles.contaText}
+                                        onPress={this.create}
+                                        >
                                         Não tem uma conta?
                                     </Text>
                                 </TouchableOpacity>

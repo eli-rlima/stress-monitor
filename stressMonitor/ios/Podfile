@@ -36,6 +36,8 @@ target 'stressMonitor' do
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
 
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
+
   target 'stressMonitorTests' do
     inherit! :search_paths
     # Pods for testing
