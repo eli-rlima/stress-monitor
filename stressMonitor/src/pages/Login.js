@@ -8,8 +8,6 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import firebase from 'react-native-firebase';
 
-import Api from '../api';
-
 class Login extends Component {
     
     state = {
@@ -67,6 +65,7 @@ class Login extends Component {
                                     style={styles.textInput} 
                                     placeholder="Email" 
                                     keyboardType="email-address"
+                                    autoCapitalize="none"
                                     value={this.state.email}
                                     onChangeText={email => this.setState({email: email})}
                                     />
