@@ -21,6 +21,7 @@ class Login extends Component {
     
     login = () => {
         this.setState({ error: false });
+        this.setState({ errorMail: false });
         const { email, password } = this.state;
 
         if (email && password) {
