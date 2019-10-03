@@ -16,19 +16,24 @@ class Login extends Component {
         isAuthenticated: false,
         isVisible: false,
         error: false,
+        errorMail: false,
     }
     
     login = () => {
         this.setState({ error: false });
         const { email, password } = this.state;
 
-        if (email !== '' && password !== '') {
+        if (email && password) {
             this.setState({ isVisible: true});
             firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ isVisible: false });
                 this.setState({ isAuthenticated: true });
-                this.props.navigation.navigate('Main');
+                if (firebase.auth().currentUser.emailVerified) {
+                    this.props.navigation.navigate('main');
+                } else {
+                    this.setState({ errorMail: true });
+                }
             })
             .catch(err => {
                 this.setState({ isVisible: false });
@@ -56,8 +61,11 @@ class Login extends Component {
                             <View style={styles.header}>
                                <Rectangle />
                                {this.state.error 
-                               ? <Text style={styles.errorText}>Email e/ou senha inválidos</Text> 
-                               : <Text></Text>}
+                                ? <Text style={styles.errorText}>Email e/ou senha inválidos</Text> 
+                                : <Text></Text>}
+                               {this.state.errorMail
+                                ? <Text style={styles.errorText}>Verifique seu email</Text> 
+                                : <Text></Text>}
                             </View>
 
                             <View style={styles.viewInput}>
@@ -94,10 +102,11 @@ class Login extends Component {
                                         Login
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity >
+                                <TouchableOpacity 
+                                    onPress={this.create}
+                                    >
                                     <Text 
                                         style={styles.contaText}
-                                        onPress={this.create}
                                         >
                                         Não tem uma conta?
                                     </Text>

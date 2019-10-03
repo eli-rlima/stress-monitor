@@ -5,7 +5,9 @@ import * as _ from 'lodash';
 
 import Frame from '../assets/Frame';
 
-class Login extends Component {
+import firebase from 'react-native-firebase';
+
+class Main extends Component {
 
     render() {
         return (
@@ -69,4 +71,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login;
+export default Main;

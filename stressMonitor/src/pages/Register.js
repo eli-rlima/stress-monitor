@@ -19,7 +19,7 @@ class Register extends Component {
         email: '',
         password: '',
         error: false,
-        date: new Date('2020-06-12T14:42:42'),
+        date: new Date('2009-01-01T00:00:00'),
         show: false,
         dateText:'',
         isVisible: false,
@@ -71,36 +71,46 @@ class Register extends Component {
     createUser = (email, password) => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(payload => {
-            this.setState({ isVisible: false });
             console.log(payload);
+            this.props.navigation.navigate('Main');
+            firebase.auth().currentUser.sendEmailVerification();
+            this.setState({ isVisible: false });
         })
         .catch(err => {
+            this.setState({error: true});
             console.log(err);
         });
     }
 
     register =  () => {
+        this.setState({ error: false });
         const { email, password, nome, date} = this.state;
         try {
             this.setState({ isVisible: true });
-            Api.database().ref('Users/').push({
-                nome,
-                email,
-                dataNascimeto: date,
-            }).then(payload => {
+            if (email && password && nome && date) {
                 this.createUser(email, password);
+                Api.database().ref('Users/').push({
+                    nome,
+                    email,
+                    dataNascimeto: date,
+                }).then(payload => {
+                    console.log(payload);
+                }).catch(err => {
+                    this.setState({ isVisible: false });
+                    console.log(err);
+                });
+            } else {
                 this.setState({ isVisible: false });
-                console.log(payload);
-            }).catch(err => {
-                console.log(err);
-            });
-            this.props.navigation.navigate('Main');
+                this.setState({ error: true });
+            }
         }catch (error) {
+            this.setState({ isVisible: false });
             console.log(error);
         }
     }
     render() {
-        const { show, date, mode, isVisible } = this.state;
+        const { show, date, mode, isVisible, error } = this.state;
+    
         return (
             <Fragment>
                 <StatusBar backgroundColor="#87CEFA" />
@@ -121,6 +131,11 @@ class Register extends Component {
                                 <Text style={styles.registerText}>
                                     Cadastro
                                 </Text>
+                            </View>
+                            <View style={styles.header}>
+                                {error 
+                                ? <Text style={styles.errorText}>Preencha os campos adequadamente</Text> 
+                                : <Text></Text>}
                             </View>
                             <View style={styles.viewInput}>
                                 <TextInput  
@@ -163,7 +178,6 @@ class Register extends Component {
                                 <View>                               
                                     { show && <DateTimePicker value={date}
                                                 mode={mode}
-                                                is24Hour={true}
                                                 display="spinner"
                                                 onChange={this.setDate}
                                                 minimumDate={new Date(1940, 0, 0)}
@@ -176,11 +190,10 @@ class Register extends Component {
                             <View style={styles.containerButton}>
                                 <TouchableOpacity 
                                     style={styles.button}
-                                    onPress={this.login}
+                                    onPress={this.register}
                                     >
                                     <Text 
                                         style={styles.textButton}
-                                        onPress={this.register}
                                     >
                                         Cadastrar
                                     </Text>

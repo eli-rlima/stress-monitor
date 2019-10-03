@@ -7,18 +7,11 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Logo from '../assets/Logo';
 import Menu from '../assets/Menu';
 
-const AppNavigation = createStackNavigator({
+const AuthNavigator = createStackNavigator({
     Login: {
         screen: Login,
         navigationOptions: {
             header: null,
-        }
-    },
-    Main: {
-        screen: Main,
-        navigationOptions: {
-            headerLeft: Logo,
-            headerRight: Menu
         }
     },
     Register: {
@@ -32,4 +25,36 @@ const AppNavigation = createStackNavigator({
     mode: "modal"
 });
 
-export default createAppContainer(AppNavigation);
+const MainNavigator = createStackNavigator({
+    Main: {
+        screen: Main,
+        navigationOptions: {
+            headerLeft: Logo,
+            headerRight: Menu
+        }
+    },
+}, {
+    initialRouteName: 'Main',
+    mode: "modal"
+});
+
+const AppNavigator = createStackNavigator({
+    auth: {
+        screen: AuthNavigator, 
+        navigationOptions:{
+            header: null,
+            gesturesEnabled: false,
+        }
+    },
+    main: {
+        screen: MainNavigator,
+        navigationOptions:{
+            header: null,
+            gesturesEnabled: false,
+        }
+    }
+}, {
+
+});
+
+export default createAppContainer(AppNavigator);
