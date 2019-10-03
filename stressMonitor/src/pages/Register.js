@@ -163,6 +163,7 @@ class Register extends Component {
                                     placeholder="Data de Nascimento"
                                     value={this.state.dateText}
                                     onTouchStart={this.datepicker}
+                                    editable={false}
                                 />
                             </View>
                             <View style={styles.viewInput}>

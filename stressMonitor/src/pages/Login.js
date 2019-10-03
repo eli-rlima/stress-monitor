@@ -131,15 +131,17 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         fontSize:18,
         marginHorizontal: 35,
-        backgroundColor: "#87CEFA",
-        marginTop: '27%',
+        borderBottomWidth: 2,
+        borderColor: "#87CEFA",
+        marginTop: '20%',
         fontFamily: 'Montserrat-Regular'
     },
     textInput2: {
         borderStyle: 'solid',
         fontSize: 18,
         marginHorizontal: 35,
-        backgroundColor: "#87CEFA",
+        borderBottomWidth: 2,
+        borderColor: "#87CEFA",
         marginTop: "4%",
         justifyContent: "center",
         fontFamily: 'Montserrat-Regular'
