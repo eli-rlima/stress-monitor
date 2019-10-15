@@ -1,11 +1,14 @@
+// Global
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import React from 'react';
+// Views
 import Login from './Login';
 import Main from './Main';
 import Register from './Register';
-
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
 import Logo from '../assets/Logo';
 import Menu from '../assets/Menu';
+// Assets
 
 const AuthNavigator = createStackNavigator({
     Login: {
@@ -49,12 +52,13 @@ const AppNavigator = createStackNavigator({
     main: {
         screen: MainNavigator,
         navigationOptions:{
+            // headerLeft:
             header: null,
             gesturesEnabled: false,
         }
     }
 }, {
-
+    initialRouteName: 'main'
 });
 
 export default createAppContainer(AppNavigator);

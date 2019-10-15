@@ -1,6 +1,6 @@
 import React, {Fragment, Component} from 'react';
 import { SafeAreaView, StyleSheet, View, Text, StatusBar, TextInput, TouchableOpacity, 
-    ScrollView, KeyboardAvoidingView } from 'react-native';
+    ScrollView, KeyboardAvoidingView, Animated, Easing } from 'react-native';
 import * as _ from 'lodash';
 
 import Rectangle from '../assets/Rectangle';
@@ -10,13 +10,19 @@ import firebase from 'react-native-firebase';
 
 class Login extends Component {
     
-    state = {
-        email: '',
-        password: '',
-        isAuthenticated: false,
-        isVisible: false,
-        error: false,
-        errorMail: false,
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            isAuthenticated: false,
+            isVisible: false,
+            error: false,
+            errorMail: false,
+            textValue: new Animated.Value(0),
+            inputValue: new Animated.Value(0),
+            passValue: new Animated.Value(0),
+        }
     }
     
     login = () => {
@@ -47,8 +53,40 @@ class Login extends Component {
     create = () => {
         this.props.navigation.navigate('Register');
     }
+
+    _moveAnimationEmail = () => {
+        Animated.timing(this.state.textValue, {
+            toValue: 27,
+            duration: 100,
+            asing: Easing.linear
+        }).start();
+        
+    }
+
+    _moveAnimationPass = ()  => {
+        Animated.timing(this.state.passValue, {
+            toValue: 27,
+            duration: 100,
+            asing: Easing.linear
+        }).start();
+    }
+    _descer = () => {
+        Animated.timing(this.state.textValue, {
+            toValue: 0,
+            duration: 50,
+            asing: Easing.linear
+        }).start();
+    }
+    _descerPass = () => {
+        Animated.timing(this.state.passValue, {
+            toValue: 0,
+            duration: 50,
+            asing: Easing.linear
+        }).start();
+    }
     
     render() {
+       
         return (
             <Fragment>
                 <StatusBar backgroundColor="#87CEFA" />
@@ -69,27 +107,45 @@ class Login extends Component {
                                 : <Text></Text>}
                             </View>
 
-                            <View style={styles.viewInput}>
-                                <TextInput 
-                                    style={styles.textInput} 
-                                    placeholder="Email" 
-                                    keyboardType="email-address"
-                                    autoCapitalize="none"
-                                    value={this.state.email}
-                                    onChangeText={email => this.setState({email: email})}
+                            <View style={styles.viewInput, [{top: '13%'}]}>
+                                <Animated.View style={[styles.viewInput, {bottom: this.state.textValue}]}>
+                                    <Text style={styles.textAnime}>Email</Text>
+                                </Animated.View>
+                            </View>
+                            <View>
+                                <Animated.View style={[styles.viewInput, {bottom: this.state.inputValue}]}>
+                                    <TextInput 
+                                        style={styles.textInput}  
+                                        keyboardType="email-address"
+                                        autoCapitalize="none"
+                                        value={this.state.email}
+                                        onChangeText={email => this.setState({email: email})}
+                                        onTouchStart={this._moveAnimationEmail}
+                                        onEndEditing={!this.state.email && this._descer}
                                     />
-                                <TextInput 
-                                    style={styles.textInput2} 
-                                    placeholder="Senha" 
-                                    secureTextEntry={true}
-                                    value={this.state.password}
-                                    onChangeText={password => this.setState({password: password})}
+                                </Animated.View>
+                            </View>
+                            <View style={styles.viewInput, [{top: '6%'}]}>
+                                <Animated.View style={[styles.viewInput, {bottom: this.state.passValue}]}>
+                                    <Text style={styles.textAnime}>Senha</Text>
+                                </Animated.View>
+                            </View>
+                            <View>
+                                <Animated.View style={[styles.viewInput, {bottom: this.state.inputValue}]}>
+                                    <TextInput 
+                                        style={styles.textInput2} 
+                                        secureTextEntry={true}
+                                        value={this.state.password}
+                                        onTouchStart={this._moveAnimationPass}
+                                        onEndEditing={!this.state.password && this._descerPass}
+                                        onChangeText={password => this.setState({password: password})}
                                     />
-                                <TouchableOpacity >
-                                    <Text style={styles.senhaText}>
-                                        Esqueceu sua senha?
-                                    </Text>
-                                </TouchableOpacity>
+                                    <TouchableOpacity >
+                                        <Text style={styles.senhaText}>
+                                            Esqueceu sua senha?
+                                        </Text>
+                                    </TouchableOpacity>
+                                </Animated.View>
                             </View>
                             <View style={styles.containerButton}>
                                 <Spinner 
@@ -122,6 +178,16 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
+    //Amimated
+    textAnime: {
+        top:'45%', 
+        left: '12%',
+        fontFamily: 'Montserrat-Regular',
+        fontSize:18,
+        opacity: 0.4
+    },
+
+    //Static
     header: {
         margin: 0,
         top: "10%",
