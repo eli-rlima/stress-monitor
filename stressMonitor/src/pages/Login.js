@@ -14,6 +14,11 @@ class Login extends Component {
     
     constructor(props) {
         super(props);
+        AsyncStorage.getItem('user').then(user => {
+            if (user) {
+                this.props.navigation.navigate('main', { user });
+            }
+        });
         this.state = {
             email: '',
             password: '',
@@ -89,11 +94,6 @@ class Login extends Component {
     }
     
     render() {
-        AsyncStorage.getItem('user').then(user => {
-            if (user) {
-                this.props.navigation.navigate('main', { user });
-            }
-        });
         return (
             <Fragment>
                 <StatusBar backgroundColor="#87CEFA" />
