@@ -108,7 +108,7 @@ class Login extends Component {
                                 : <Text></Text>}
                             </View>
 
-                            <View style={styles.viewInput, [{top: '13%'}]}>
+                            <View style={styles.viewInput, [{top: '12%'}]}>
                                 <Animated.View style={[styles.viewInput, {bottom: this.state.textValue}]}>
                                     <Text style={styles.textAnime}>Email</Text>
                                 </Animated.View>
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 35,
         borderBottomWidth: 2,
         borderColor: "#87CEFA",
-        marginTop: '20%',
+        marginTop: '18%',
         fontFamily: 'Montserrat-Regular'
     },
     textInput2: {
