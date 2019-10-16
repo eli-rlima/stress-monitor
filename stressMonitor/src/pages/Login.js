@@ -1,8 +1,9 @@
 // Global
-import React, {Fragment, Component} from 'react';
+import React, { Fragment, Component } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, StatusBar, TextInput, TouchableOpacity, 
     ScrollView, KeyboardAvoidingView, Animated, Easing } from 'react-native';
 import * as _ from 'lodash';
+import AsyncStorage from '@react-native-community/async-storage';
 // Views
 import Rectangle from '../assets/Rectangle';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -25,18 +26,19 @@ class Login extends Component {
             passValue: new Animated.Value(0),
         }
     }
-    
+
     login = () => {
         this.setState({ error: false });
         this.setState({ errorMail: false });
         const { email, password } = this.state;
 
         if (email && password) {
-            this.setState({ isVisible: true});
+            this.setState({ isVisible: true });
             firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => {
+            .then(payload => {
                 this.setState({ isVisible: false });
                 this.setState({ isAuthenticated: true });
+                AsyncStorage.setItem('user', payload.user.uid).then(() => {});
                 if (firebase.auth().currentUser.emailVerified) {
                     this.props.navigation.navigate('main');
                 } else {
@@ -87,7 +89,11 @@ class Login extends Component {
     }
     
     render() {
-       
+        AsyncStorage.getItem('user').then(user => {
+            if (user) {
+                this.props.navigation.navigate('main', { user });
+            }
+        });
         return (
             <Fragment>
                 <StatusBar backgroundColor="#87CEFA" />

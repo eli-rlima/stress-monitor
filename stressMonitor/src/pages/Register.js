@@ -3,6 +3,7 @@ import React, {Fragment, Component} from 'react';
 import { SafeAreaView, StyleSheet, View, Text, StatusBar, TextInput, TouchableOpacity, 
     ScrollView, KeyboardAvoidingView, Button } from 'react-native';
 import * as _ from 'lodash';
+import AsyncStorage from '@react-native-community/async-storage';
 // Views
 import Rectangle from '../assets/Rectangle';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -75,6 +76,7 @@ class Register extends Component {
             console.log(payload);
             this.props.navigation.navigate('Main');
             firebase.auth().currentUser.sendEmailVerification();
+            AsyncStorage.setItem('user', payload.uid).then(() => {});
             this.setState({ isVisible: false });
         })
         .catch(err => {
