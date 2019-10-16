@@ -1,11 +1,12 @@
+// Global
 import React, {Fragment, Component} from 'react';
 import { SafeAreaView, StyleSheet, View, Text, StatusBar, TextInput, TouchableOpacity, 
     ScrollView, KeyboardAvoidingView, Animated, Easing } from 'react-native';
 import * as _ from 'lodash';
-
+// Views
 import Rectangle from '../assets/Rectangle';
 import Spinner from 'react-native-loading-spinner-overlay';
-
+// Api
 import firebase from 'react-native-firebase';
 
 class Login extends Component {

@@ -1,15 +1,16 @@
+// Global
 import React, {Fragment, Component} from 'react';
 import { SafeAreaView, StyleSheet, View, Text, StatusBar, TextInput, TouchableOpacity, 
     ScrollView, KeyboardAvoidingView, Button } from 'react-native';
 import * as _ from 'lodash';
-
+// Views
 import Rectangle from '../assets/Rectangle';
 import Spinner from 'react-native-loading-spinner-overlay';
 import DateTimePicker from '@react-native-community/datetimepicker';
+// Utils
 import Dicitionary from '../lib/utils/Dictionary';
-
+// Api
 import firebase from 'react-native-firebase';
-
 import Api from '../api';
 
 class Register extends Component {

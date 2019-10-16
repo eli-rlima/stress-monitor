@@ -1,10 +1,11 @@
+// Global
 import React, {Fragment, Component} from 'react';
 import { SafeAreaView, StyleSheet, View, Text, StatusBar, TouchableOpacity, 
     ScrollView } from 'react-native';
 import * as _ from 'lodash';
-
+// Assets
 import Frame from '../assets/Frame';
-
+// Api
 import firebase from 'react-native-firebase';
 
 class Main extends Component {

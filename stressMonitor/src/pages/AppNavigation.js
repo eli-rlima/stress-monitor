@@ -10,8 +10,6 @@ import React from 'react';
 import Register from './Register';
 import { createStackNavigator } from 'react-navigation-stack';
 
-// Assets
-
 const AuthNavigator = createStackNavigator({
     Login: {
         screen: Login,
@@ -54,7 +52,6 @@ const AppNavigator = createSwitchNavigator({
     main: {
         screen: MainNavigator,
         navigationOptions:{
-            // headerLeft:
             header: null,
             gesturesEnabled: false,
         }
