@@ -28,21 +28,8 @@ class Main extends Component {
                 <StatusBar backgroundColor="#87CEFA" />
                 <SafeAreaView>
                     <ScrollView>
-                        <View>
-                            <Frame />
-                            <Text style={styles.text}>
-                                É muito importante que você envie as informações de estresse, 
-                                só assim será possível a realização das análises e gerações
-                                de relatórios.
-                                {"\n\n"}Seja assíduo!
-                            </Text>
-                        </View>
-                        <View style={styles.containerButton}>
-                            <TouchableOpacity style={styles.button}>
-                                <Text style={styles.textButton}>
-                                    Enviar Estresse
-                                </Text>
-                            </TouchableOpacity>
+                        <View style={{alignItems: "center", justifyContent: "center"}}>
+                            <Text>Relatório</Text>
                         </View>
                     </ScrollView>
                 </SafeAreaView>

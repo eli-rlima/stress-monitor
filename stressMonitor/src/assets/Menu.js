@@ -13,9 +13,7 @@ const Content = () => (
 
 const Menu = () => (
     <View style={styles.menuContainer}>
-        <TouchableOpacity>
-            <Content />
-        </TouchableOpacity>
+        <Content />
     </View>
 );
 

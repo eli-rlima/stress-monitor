@@ -16,7 +16,7 @@ class Login extends Component {
         super(props);
         AsyncStorage.getItem('user').then(user => {
             if (user) {
-                this.props.navigation.navigate('main', { user });
+                this.props.navigation.navigate('menu', { user });
             }
         });
         this.state = {
