@@ -16,7 +16,7 @@ class Home extends Component {
             AsyncStorage.getItem('user')
             .then(() => {this.props.navigation.navigate('menu')})
             .catch(() => {this.props.navigation.navigate('auth')});
-        }, 2000)
+        }, 500)
     }
 
     render() {
