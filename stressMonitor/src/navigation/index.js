@@ -21,25 +21,19 @@ import Logout from '../assets/Logout';
 const AuthNavigator = createStackNavigator({
     Login: {
         screen: Login,
-        navigationOptions: {
-            header: null,
-        }
     },
     Register: {
         screen: Register,
-        navigationOptions: {
-            header: null,
-        }
     },
     ForgetPass: {
         screen: ForgetPass,
-        navigationOptions: {
-            header: null,
-        }
     }
 }, {
     initialRouteName: 'Login',
-    mode: "modal"
+    mode: "modal",
+    defaultNavigationOptions: {
+        header: null,
+    }
 });
 
 const MainNavigator = createStackNavigator({
