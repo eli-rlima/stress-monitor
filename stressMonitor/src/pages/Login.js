@@ -1,7 +1,7 @@
 // Global
 import React, { Fragment, Component } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, StatusBar, TextInput, TouchableOpacity, 
-    ScrollView, KeyboardAvoidingView, Animated, Easing } from 'react-native';
+    ScrollView, KeyboardAvoidingView, Animated, Easing, Modal } from 'react-native';
 import * as _ from 'lodash';
 import AsyncStorage from '@react-native-community/async-storage';
 // Views
@@ -14,6 +14,7 @@ class Login extends Component {
     
     constructor(props) {
         super(props);
+        AsyncStorage.clear();
         AsyncStorage.getItem('user').then(user => {
             if (user) {
                 this.props.navigation.navigate('menu', { user });
@@ -43,9 +44,9 @@ class Login extends Component {
             .then(payload => {
                 this.setState({ isVisible: false });
                 this.setState({ isAuthenticated: true });
-                AsyncStorage.setItem('user', payload.user.uid).then(() => {});
                 if (firebase.auth().currentUser.emailVerified) {
                     this.props.navigation.navigate('main');
+                    AsyncStorage.setItem('user', payload.user.uid).then(() => {});
                 } else {
                     this.setState({ errorMail: true });
                 }
@@ -60,6 +61,10 @@ class Login extends Component {
 
     create = () => {
         this.props.navigation.navigate('Register');
+    }
+
+    forgetPass = () => {
+        this.props.navigation.navigate('ForgetPass');
     }
 
     _moveAnimationEmail = () => {
@@ -147,7 +152,9 @@ class Login extends Component {
                                         onEndEditing={!this.state.password && this._descerPass}
                                         onChangeText={password => this.setState({password: password})}
                                     />
-                                    <TouchableOpacity >
+                                    <TouchableOpacity
+                                        onPress={this.forgetPass}
+                                    >
                                         <Text style={styles.senhaText}>
                                             Esqueceu sua senha?
                                         </Text>

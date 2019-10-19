@@ -10,6 +10,8 @@ import React from 'react';
 import History from '../pages/History';
 import Register from '../pages/Register';
 import Report from '../pages/Report';
+import HeaderDrawer from '../components/HeaderDrawer';
+import ForgetPass from '../components/Modal/ForgetPassword';
 // Assets
 import Home from '../assets/home.png';
 import iHistory from '../assets/iHistory';
@@ -29,6 +31,12 @@ const AuthNavigator = createStackNavigator({
             header: null,
         }
     },
+    ForgetPass: {
+        screen: ForgetPass,
+        navigationOptions: {
+            header: null,
+        }
+    }
 }, {
     initialRouteName: 'Login',
     mode: "modal"
@@ -90,12 +98,18 @@ const MenuNavigator = createDrawerNavigator({
         }
     },
 }, {
-    drawerBackgroundColor: '#87CEFA',
+    drawerBackgroundColor: 'rgba(133, 205, 250, 0.6)',
     contentOptions: {
-        activeTintColor: 'white'
+        activeTintColor: 'white',
+        labelStyle: {
+            fontSize: 14,
+            fontFamily: 'Montserrat-Regular',
+        }
     },
     drawerWidth: '80%',
-    drawerType: "back"
+    drawerType: "back",
+
+    contentComponent: HeaderDrawer,
 });
 
 const AppNavigator = createSwitchNavigator({
