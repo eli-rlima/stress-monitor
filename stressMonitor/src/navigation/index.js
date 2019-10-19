@@ -11,6 +11,7 @@ import History from '../pages/History';
 import Register from '../pages/Register';
 import Report from '../pages/Report';
 import Home from '../pages/Home';
+import GoodBye from '../pages/GoodBye';
 import HeaderDrawer from '../components/HeaderDrawer';
 import ForgetPass from '../components/Modal/ForgetPassword';
 // Assets
@@ -61,7 +62,7 @@ const ReportNavigator = createStackNavigator({
     },
 }, {
     initialRouteName: 'Report',
-    mode: "modal"
+    mode: "modal",
 });
 
 const MenuNavigator = createDrawerNavigator({
@@ -86,11 +87,11 @@ const MenuNavigator = createDrawerNavigator({
         }
     },
     Logout: {
-        screen: Login,
+        screen: GoodBye,
         navigationOptions: {
             drawerLabel: 'Logout',
             drawerIcon: Logout,
-        }
+        },
     },
 }, {
     drawerBackgroundColor: 'rgba(133, 205, 250, 0.6)',

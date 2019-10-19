@@ -14,8 +14,8 @@ import firebase from 'react-native-firebase';
 class Main extends Component {
 
     static navigationOptions = ({ navigation }) => ({
-        headerLeft: (Logo),
-        headerRight: (
+        headerTitle: (Logo),
+        headerLeft: (
             <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
                 <Menu />
             </TouchableOpacity>

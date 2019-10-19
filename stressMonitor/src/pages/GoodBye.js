@@ -13,15 +13,8 @@ class Home extends Component {
 
     componentDidMount() {
         this.timeoutHandle = setTimeout(() => {
-            AsyncStorage.getItem('user')
-            .then(user => {
-                if (user) {
-                    this.props.navigation.navigate('menu');
-                } else {
-                    this.props.navigation.navigate('auth');
-                }
-            })
-            .catch(() => {this.props.navigation.navigate('auth')});
+            AsyncStorage.clear()
+            .then(() => {this.props.navigation.navigate('auth')});
         }, 500)
     }
     
@@ -40,7 +33,7 @@ class Home extends Component {
                         </View>
                         <View style={styles.containerText}>
                             <Text style={styles.welcomeText}>
-                                Bem-Vindo!
+                                Até mais!
                             </Text>
                         </View>
                     </View>
