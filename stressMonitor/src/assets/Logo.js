@@ -16,7 +16,7 @@ const Header = () => (
 
 const styles = StyleSheet.create({
     logoContainer: {
-        marginLeft: 20,
+        marginHorizontal: '20%'
     },  
 })
 

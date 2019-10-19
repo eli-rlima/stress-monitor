@@ -102,9 +102,9 @@ const MenuNavigator = createDrawerNavigator({
         }
     },
     drawerWidth: '80%',
-    drawerType: "back",
-
+    drawerType: "slide",
     contentComponent: HeaderDrawer,
+    initialRouteName: 'Home'
 });
 
 const AppNavigator = createSwitchNavigator({
