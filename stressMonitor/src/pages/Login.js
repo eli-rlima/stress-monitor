@@ -14,12 +14,6 @@ class Login extends Component {
     
     constructor(props) {
         super(props);
-        AsyncStorage.clear();
-        AsyncStorage.getItem('user').then(user => {
-            if (user) {
-                this.props.navigation.navigate('menu', { user });
-            }
-        });
         this.state = {
             email: '',
             password: '',
@@ -45,8 +39,8 @@ class Login extends Component {
                 this.setState({ isVisible: false });
                 this.setState({ isAuthenticated: true });
                 if (firebase.auth().currentUser.emailVerified) {
-                    this.props.navigation.navigate('main');
                     AsyncStorage.setItem('user', payload.user.uid).then(() => {});
+                    this.props.navigation.navigate('menu');
                 } else {
                     this.setState({ errorMail: true });
                 }

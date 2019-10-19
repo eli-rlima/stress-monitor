@@ -1,4 +1,5 @@
 // Global
+import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer'
@@ -6,14 +7,14 @@ import { Image } from 'react-native';
 // Views
 import Login from '../pages/Login';
 import Main from '../pages/Main';
-import React from 'react';
 import History from '../pages/History';
 import Register from '../pages/Register';
 import Report from '../pages/Report';
+import Home from '../pages/Home';
 import HeaderDrawer from '../components/HeaderDrawer';
 import ForgetPass from '../components/Modal/ForgetPassword';
 // Assets
-import Home from '../assets/home.png';
+import iHome from '../assets/home.png';
 import iHistory from '../assets/iHistory';
 import iReport from '../assets/iReport';
 import Logout from '../assets/Logout';
@@ -67,7 +68,7 @@ const MenuNavigator = createDrawerNavigator({
     Home: {
         screen: MainNavigator,
         navigationOptions: {
-            drawerIcon: (<Image source={Home} style={{height: 20, width: 20}}/>),
+            drawerIcon: (<Image source={iHome} style={{height: 20, width: 20}}/>),
         }
     },
     History: {
@@ -107,6 +108,12 @@ const MenuNavigator = createDrawerNavigator({
 });
 
 const AppNavigator = createSwitchNavigator({
+    home: {
+        screen: Home,
+        navigationOptions: {
+            header: null,
+        }
+    },
     auth: {
         screen: AuthNavigator, 
         navigationOptions:{
@@ -118,7 +125,7 @@ const AppNavigator = createSwitchNavigator({
         screen: MenuNavigator,
     }
 }, {
-    initialRouteName: 'auth'
+    initialRouteName: 'home'
 });
 
 export default createAppContainer(AppNavigator);
