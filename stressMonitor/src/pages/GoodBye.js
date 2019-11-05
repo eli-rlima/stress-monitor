@@ -17,10 +17,6 @@ class Home extends Component {
             .then(() => {this.props.navigation.navigate('auth')});
         }, 500)
     }
-    
-    componentWillUnmount() {
-        clearTimeout(this.timeoutHandle);
-    }
 
     render() {
         return (
