@@ -2,6 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import { StyleSheet, View, SafeAreaView , StatusBar, Text } from 'react-native';
 import * as _ from 'lodash';
+import firebase from 'react-native-firebase';
 // Views
 import Rectangle from '../assets/Rectangle';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -13,9 +14,10 @@ class Home extends Component {
 
     componentDidMount() {
         this.timeoutHandle = setTimeout(() => {
-            AsyncStorage.clear()
+            AsyncStorage.clear();
+            firebase.auth().signOut()
             .then(() => {this.props.navigation.navigate('auth')});
-        }, 500)
+        }, 500);
     }
 
     render() {

@@ -10,7 +10,7 @@ const HeaderDrawer = props => (
             <Logo />
         </View>
         <ScrollView>
-            <DrawerNavigatorItems {...props}/>
+            <DrawerNavigatorItems {...props} />
         </ScrollView>
     </SafeAreaView>
 );

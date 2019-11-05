@@ -98,11 +98,12 @@ const MenuNavigator = createDrawerNavigator({
     contentOptions: {
         activeTintColor: 'white',
         labelStyle: {
-            fontSize: 14,
+            fontSize: 16,
             fontFamily: 'Montserrat-Regular',
+            fontWeight: '200',
         }
     },
-    drawerWidth: '80%',
+    drawerWidth: '85%',
     drawerType: "slide",
     contentComponent: HeaderDrawer,
     initialRouteName: 'Home'
