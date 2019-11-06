@@ -80,7 +80,7 @@ class Stress extends Component {
                     uid: currentUser,
                 }).then(payload => {
                     this.initialState();
-                    this.props.navigation.navigate('Report');
+                    this.props.navigation.navigate('History');
                     console.log(payload);
                 }).catch(err => {
                     console.log(err);
@@ -125,6 +125,7 @@ class Stress extends Component {
                                         onPress={() => {this.setState({checkedSpleep: !this.state.checkedSpleep})}}
                                         containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
                                         checkedColor='black'
+                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
                                     <CheckBox 
                                         title='Tensão Muscular' 
@@ -132,6 +133,7 @@ class Stress extends Component {
                                         onPress={() => {this.setState({checkedMuscle: !this.state.checkedMuscle})}}
                                         containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
                                         checkedColor='black'
+                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
                                     <CheckBox 
                                         title='Formigamentos' 
@@ -139,6 +141,7 @@ class Stress extends Component {
                                         onPress={() => {this.setState({checkedTingling: !this.state.checkedTingling})}}
                                         containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
                                         checkedColor='black'
+                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
                                     <CheckBox 
                                         title='Palpitações' 
@@ -146,6 +149,7 @@ class Stress extends Component {
                                         onPress={() => {this.setState({checkedPalpitations: !this.state.checkedPalpitations})}}
                                         containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
                                         checkedColor='black'
+                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
                                 </View>
                                 <View style={{justifyContent: "flex-start", alignItems: "flex-end"}}>
@@ -155,6 +159,7 @@ class Stress extends Component {
                                         onPress={() => {this.setState({checkedMuscleWear: !this.state.checkedMuscleWear})}}
                                         containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
                                         checkedColor='black'
+                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
                                     <CheckBox 
                                         title='Ansiedade' 
@@ -162,6 +167,7 @@ class Stress extends Component {
                                         onPress={() => {this.setState({checkedAnxiety: !this.state.checkedAnxiety})}}
                                         containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
                                         checkedColor='black'
+                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
                                     <CheckBox 
                                         title='Mudança no apetite' 
@@ -169,6 +175,7 @@ class Stress extends Component {
                                         onPress={() => {this.setState({checkedAppetite: !this.state.checkedAppetite})}}
                                         containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
                                         checkedColor='black'
+                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
                                     <CheckBox 
                                         title='Alterações de humor' 
@@ -176,6 +183,7 @@ class Stress extends Component {
                                         onPress={() => {this.setState({checkedHumor: !this.state.checkedHumor})}}
                                         containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
                                         checkedColor='black'
+                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
                                 </View>
                             </View>
