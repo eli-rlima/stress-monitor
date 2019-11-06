@@ -56,11 +56,13 @@ class Stress extends Component {
     }
 
     createStress = () => {
-        const { checkedMuscle, checkedSpleep, checkedAnxiety, checkedAppetite, checkedHumor, checkedMuscleWear, checkedPalpitations, checkedTingling, commenter } = this.state;
+        const { checkedMuscle, checkedSpleep, checkedAnxiety, checkedAppetite, checkedHumor
+            , checkedMuscleWear, checkedPalpitations, checkedTingling, commenter } = this.state;
         AsyncStorage.getItem('user').then(user => {
             this.setState({ isVisible: true });
             const currentUser = user;
-            if (!checkedMuscle && !checkedSpleep && !checkedAnxiety && !checkedAppetite && !checkedHumor && !checkedMuscleWear && !checkedPalpitations && !checkedTingling) {
+            if (!checkedMuscle && !checkedSpleep && !checkedAnxiety && !checkedAppetite 
+                && !checkedHumor && !checkedMuscleWear && !checkedPalpitations && !checkedTingling) {
                 this.setState({ isVisible: false });
                 this.setState({ error: true });
             } else {
@@ -110,7 +112,9 @@ class Stress extends Component {
                                     visible={this.state.isVisible}
                                 />                   
                                 <View style={{top: '40%'}}>
-                                    {this.state.error ? <Text style={styles.errorText}>Preencha os campos adequadamente</Text> : <Text></Text>}
+                                    {this.state.error 
+                                    ? <Text style={styles.errorText}>Preencha os campos adequadamente</Text> 
+                                    : <Text></Text>}
                                 </View>
                             </View>
                             <View>
