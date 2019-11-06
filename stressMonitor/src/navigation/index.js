@@ -126,7 +126,7 @@ const MenuNavigator = createDrawerNavigator({
     drawerWidth: '80%',
     drawerType: "slide",
     contentComponent: HeaderDrawer,
-    initialRouteName: 'Stress'
+    initialRouteName: 'Home'
 });
 
 const AppNavigator = createSwitchNavigator({
@@ -147,7 +147,7 @@ const AppNavigator = createSwitchNavigator({
         screen: MenuNavigator,
     }
 }, {
-    initialRouteName: 'menu'
+    initialRouteName: 'home'
 });
 
 export default createAppContainer(AppNavigator);
