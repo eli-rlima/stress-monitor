@@ -157,7 +157,7 @@ class Stress extends Component {
                                         title='Desgaste muscular' 
                                         checked={this.state.checkedMuscleWear} 
                                         onPress={() => {this.setState({checkedMuscleWear: !this.state.checkedMuscleWear})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
+                                        containerStyle={{backgroundColor: 'transparent', width: 170, height: 30, borderWidth: 0}}
                                         checkedColor='black'
                                         textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
@@ -165,7 +165,7 @@ class Stress extends Component {
                                         title='Ansiedade' 
                                         checked={this.state.checkedAnxiety} 
                                         onPress={() => {this.setState({checkedAnxiety: !this.state.checkedAnxiety})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
+                                        containerStyle={{backgroundColor: 'transparent', width: 170, height: 30, borderWidth: 0}}
                                         checkedColor='black'
                                         textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
@@ -173,7 +173,7 @@ class Stress extends Component {
                                         title='Mudança no apetite' 
                                         checked={this.state.checkedAppetite} 
                                         onPress={() => {this.setState({checkedAppetite: !this.state.checkedAppetite})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
+                                        containerStyle={{backgroundColor: 'transparent', width: 170, height: 30, borderWidth: 0}}
                                         checkedColor='black'
                                         textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
@@ -181,7 +181,7 @@ class Stress extends Component {
                                         title='Alterações de humor' 
                                         checked={this.state.checkedHumor} 
                                         onPress={() => {this.setState({checkedHumor: !this.state.checkedHumor})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
+                                        containerStyle={{backgroundColor: 'transparent', width: 170, height: 30, borderWidth: 0}}
                                         checkedColor='black'
                                         textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
                                     />
