@@ -14,11 +14,13 @@ import Home from '../pages/Home';
 import GoodBye from '../pages/GoodBye';
 import HeaderDrawer from '../components/HeaderDrawer';
 import ForgetPass from '../components/Modal/ForgetPassword';
+import Stress from '../pages/Stress';
 // Assets
 import iHome from '../assets/home.png';
 import iHistory from '../assets/iHistory';
 import iReport from '../assets/iReport';
 import Logout from '../assets/Logout';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const AuthNavigator = createStackNavigator({
     Login: {
@@ -56,6 +58,14 @@ const HistoryNavigator = createStackNavigator({
     mode: "modal"
 });
 
+const StressNavigator = createStackNavigator({
+    Stress: {
+        screen: Stress,
+    },
+}, {
+    initialRouteName: 'Stress',
+    mode: "modal"
+});
 const ReportNavigator = createStackNavigator({
     Report: {
         screen: Report,
@@ -70,6 +80,13 @@ const MenuNavigator = createDrawerNavigator({
         screen: MainNavigator,
         navigationOptions: {
             drawerIcon: (<Image source={iHome} style={{height: 20, width: 20}}/>),
+        }
+    },
+    Stress: {
+        screen: StressNavigator,
+        navigationOptions: {
+            drawerLabel: 'Cadastrar Estresse',
+            drawerIcon: (<Icon name="plus" size={25}></Icon>),
         }
     },
     History: {
@@ -103,10 +120,13 @@ const MenuNavigator = createDrawerNavigator({
             fontWeight: '200',
         }
     },
-    drawerWidth: '85%',
+    navigationOptions: {
+        
+    },
+    drawerWidth: '80%',
     drawerType: "slide",
     contentComponent: HeaderDrawer,
-    initialRouteName: 'Home'
+    initialRouteName: 'Stress'
 });
 
 const AppNavigator = createSwitchNavigator({
@@ -127,7 +147,7 @@ const AppNavigator = createSwitchNavigator({
         screen: MenuNavigator,
     }
 }, {
-    initialRouteName: 'home'
+    initialRouteName: 'menu'
 });
 
 export default createAppContainer(AppNavigator);

@@ -73,7 +73,6 @@ class Register extends Component {
     createUser = (email, password) => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(payload => {
-            console.log(payload);
             this.props.navigation.navigate('Main');
             firebase.auth().currentUser.sendEmailVerification();
             AsyncStorage.setItem('user', payload.uid).then(() => {});

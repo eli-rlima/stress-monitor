@@ -22,6 +22,10 @@ class Main extends Component {
         )
     });
 
+    navigateAdd = () => {
+        this.props.navigation.navigate('Stress');
+    }
+
     render() {
         return (
             <Fragment>
@@ -38,7 +42,7 @@ class Main extends Component {
                             </Text>
                         </View>
                         <View style={styles.containerButton}>
-                            <TouchableOpacity style={styles.button}>
+                            <TouchableOpacity style={styles.button} onPress={this.navigateAdd}>
                                 <Text style={styles.textButton}>
                                     Enviar Estresse
                                 </Text>
