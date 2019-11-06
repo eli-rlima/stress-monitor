@@ -187,6 +187,7 @@ class Stress extends Component {
                                     textAlignVertical='top'
                                     value={this.state.commenter}
                                     onChange={this.createCommenter}
+                                    multiline
                                 />
                             </View>
                             <View style={styles.containerButton}>
