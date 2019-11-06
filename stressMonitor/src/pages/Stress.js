@@ -26,6 +26,7 @@ class Stress extends Component {
             checkedHumor: false,
             commenter: '',
             isVisible: false,
+            error: false,
         }
     }
 
@@ -38,28 +39,51 @@ class Stress extends Component {
         )
     });
 
+    initialState = () => {
+        this.setState({
+            checkedSpleep: false,
+            checkedMuscle: false,
+            checkedTingling: false,
+            checkedPalpitations: false,
+            checkedMuscleWear: false,
+            checkedAnxiety: false,
+            checkedAppetite: false,
+            checkedHumor: false,
+            commenter: '',
+            isVisible: false,
+            error: false,
+        });
+    }
+
     createStress = () => {
         const { checkedMuscle, checkedSpleep, checkedAnxiety, checkedAppetite, checkedHumor, checkedMuscleWear, checkedPalpitations, checkedTingling, commenter } = this.state;
         AsyncStorage.getItem('user').then(user => {
             this.setState({ isVisible: true });
             const currentUser = user;
-            Api.database().ref('Stresses/').push({
-                checkedAnxiety,
-                checkedMuscle,
-                checkedSpleep,
-                checkedAppetite,
-                checkedHumor, 
-                checkedMuscleWear,
-                checkedPalpitations,
-                checkedTingling,
-                commenter,
-                uid: currentUser,
-            }).then(payload => {
+            if (!checkedMuscle && !checkedSpleep && !checkedAnxiety && !checkedAppetite && !checkedHumor && !checkedMuscleWear && !checkedPalpitations && !checkedTingling) {
                 this.setState({ isVisible: false });
-                console.log(payload);
-            }).catch(err => {
-                console.log(err);
-            });
+                this.setState({ error: true });
+            } else {
+                this.setState({ error: false });
+                Api.database().ref('Stresses/').push({
+                    checkedAnxiety,
+                    checkedMuscle,
+                    checkedSpleep,
+                    checkedAppetite,
+                    checkedHumor, 
+                    checkedMuscleWear,
+                    checkedPalpitations,
+                    checkedTingling,
+                    commenter,
+                    uid: currentUser,
+                }).then(payload => {
+                    this.initialState();
+                    this.props.navigation.navigate('Report');
+                    console.log(payload);
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
         });
     }
 
@@ -85,8 +109,11 @@ class Stress extends Component {
                                 <Spinner 
                                     visible={this.state.isVisible}
                                 />                   
+                                <View style={{top: '40%'}}>
+                                    {this.state.error ? <Text style={styles.errorText}>Preencha os campos adequadamente</Text> : <Text></Text>}
+                                </View>
                             </View>
-                            <View style={{paddingTop: '3%'}}>
+                            <View>
                                 <View style={{justifyContent: "flex-start", alignItems: "flex-start", height: 0}}>
                                     <CheckBox 
                                         title='Alteração no sono' 
@@ -215,6 +242,10 @@ const styles = StyleSheet.create({
     containerButton:{
         alignItems: 'center',
         top: '12%'
+    },
+    errorText: {
+        color: 'red',
+        fontFamily: 'Montserrat-SemiBold'
     },
 });
 

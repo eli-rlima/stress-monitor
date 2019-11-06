@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     },
     errorText: {
         color: 'red',
-        fontFamily: 'Montserrat-Medium'
+        fontFamily: 'Montserrat-SemiBold'
     },
     registerText: {
         fontFamily: 'Montserrat-Regular',
