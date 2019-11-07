@@ -12,12 +12,14 @@ import Menu from '../assets/Menu';
 // Api
 import Api from '../api';
 import StressCard from '../components/StressCard';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class History extends Component {
     constructor(props) {
         super(props);
         this.state = {
             stresses: [],
+            isVisible: false
         }
     }
 
@@ -33,26 +35,30 @@ class History extends Component {
     initialState () {
         this.setState({
             stresses: [],
+            isVisible: false,
         });
     }
 
     componentDidMount() {
         this.initialState();
         AsyncStorage.getItem('user').then(user => {
+            this.setState({ isVisible: true });
             const currentUser = user;
             const stresses = [];
             Api.database().ref('Stresses/').on("value", payload => {
                 payload.forEach(stress => {
                     if (stress.val().uid === currentUser) {
-                        const stressL = {
+                        const stressN = {
                             key: stress.key,
                             data: stress.val()
                         }
-                        stresses.push(stressL);
+                        stresses.push(stressN);
                     }
                 });
                 this.setState({ stresses: stresses });
+                this.setState({ isVisible: false });
             }, error => {
+                this.setState({ isVisible: false });
                 console.log(error);
             });
         });
@@ -76,6 +82,9 @@ class History extends Component {
                         <View style={styles.hearder}>
                             <Text style={styles.text}>Hitórico de Estresse</Text>
                         </View>
+                        <Spinner 
+                            visible={this.state.isVisible}
+                        />  
                         <FlatList
                             data={stressesU}
                             keyExtractor={stress => stress.key}
