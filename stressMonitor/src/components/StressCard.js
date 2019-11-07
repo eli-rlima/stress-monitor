@@ -28,8 +28,7 @@ const styles = StyleSheet.create({
     },
     date:{
         fontSize: 16,
-        fontStyle:'italic',
-        fontWeight:'bold',
+        fontFamily: 'Montserrat-SemiBold',
         color: '#87CEFA',
     },
     stress:{
