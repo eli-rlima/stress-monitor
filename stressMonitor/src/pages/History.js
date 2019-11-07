@@ -48,7 +48,7 @@ class History extends Component {
                             key: stress.key,
                             data: stress.val()
                         }
-                        stresses.push(stressL)
+                        stresses.push(stressL);
                     }
                 });
                 this.setState({ stresses: stresses });
@@ -60,7 +60,8 @@ class History extends Component {
 
     render() {
         let { stresses } = this.state;
-        stresses.sort(function(a, b) {
+        let stressesU = _.uniqWith(stresses, _.isEqual);
+        stressesU.sort(function(a, b) {
             if (isAfter(parseISO(a.data.createdAt), parseISO(b.data.createdAt))) {
                 return -1;
             }else {
@@ -76,7 +77,7 @@ class History extends Component {
                             <Text style={styles.text}>Hitórico de Estresse</Text>
                         </View>
                         <FlatList
-                            data={stresses}
+                            data={stressesU}
                             keyExtractor={stress => stress.key}
                             renderItem={({ item }) => (
                                 <TouchableOpacity onPress={() => {}}>
