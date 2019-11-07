@@ -1,17 +1,25 @@
 // Global
 import React, {Fragment, Component} from 'react';
 import { SafeAreaView, StyleSheet, View, Text, StatusBar, TouchableOpacity, 
-    ScrollView, Image } from 'react-native';
+    ScrollView, Image, FlatList } from 'react-native';
 import * as _ from 'lodash';
 import { DrawerActions } from 'react-navigation-drawer'
+import AsyncStorage from '@react-native-community/async-storage';
+import { isAfter, parseISO } from 'date-fns';
 // Assets
-import Frame from '../assets/Frame';
 import Logo from '../assets/Logo';
 import Menu from '../assets/Menu';
 // Api
-import firebase from 'react-native-firebase';
+import Api from '../api';
+import StressCard from '../components/StressCard';
 
-class Main extends Component {
+class History extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            stresses: [],
+        }
+    }
 
     static navigationOptions = ({ navigation }) => ({
         headerTitle: (Logo),
@@ -22,13 +30,60 @@ class Main extends Component {
         )
     });
 
+    initialState () {
+        this.setState({
+            stresses: [],
+        });
+    }
+
+    componentDidMount() {
+        this.initialState();
+        AsyncStorage.getItem('user').then(user => {
+            const currentUser = user;
+            const stresses = [];
+            Api.database().ref('Stresses/').on("value", payload => {
+                payload.forEach(stress => {
+                    if (stress.val().uid === currentUser) {
+                        const stressL = {
+                            key: stress.key,
+                            data: stress.val()
+                        }
+                        stresses.push(stressL)
+                    }
+                });
+                this.setState({ stresses: stresses });
+            }, error => {
+                console.log(error);
+            });
+        });
+    };
+
     render() {
+        let { stresses } = this.state;
+        stresses.sort(function(a, b) {
+            if (isAfter(parseISO(a.data.createdAt), parseISO(b.data.createdAt))) {
+                return -1;
+            }else {
+                return 1;
+            }                    
+        });
         return (
             <Fragment>
                 <StatusBar backgroundColor="#87CEFA" />
                 <SafeAreaView>
-                    <View style={{alignItems: "center", justifyContent: "center"}}>
-                        <Text>History</Text>
+                    <View style={{height: '100%'}}>
+                        <View style={styles.hearder}>
+                            <Text style={styles.text}>Hitórico de Estresse</Text>
+                        </View>
+                        <FlatList
+                            data={stresses}
+                            keyExtractor={stress => stress.key}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity onPress={() => {}}>
+                                    <StressCard style={styles.fellingCard} item={item}/>
+                                </TouchableOpacity>
+                            )}
+                        ></FlatList>
                     </View>
                 </SafeAreaView>
             </Fragment>
@@ -40,9 +95,8 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         textAlign: "justify",
         fontSize: 20,
-        paddingHorizontal: 35,
-        bottom: 250,
-        fontFamily: 'Montserrat-Regular'
+        paddingVertical: 15,
+        fontFamily: 'Montserrat-SemiBold'
     },
     button: {
         backgroundColor:'#87CEFA',
@@ -67,6 +121,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         bottom: 100,
     },
+    hearder: {
+        alignItems: "center", 
+        justifyContent: "center",
+        backgroundColor: 'rgba(133, 205, 250, 0.6)'
+    }
 });
 
-export default Main;
+export default History;
