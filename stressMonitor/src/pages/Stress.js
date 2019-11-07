@@ -192,7 +192,7 @@ class Stress extends Component {
                                 <TextInput 
                                     placeholder='adicione um comentário de como foi o seu dia' 
                                     style={styles.input}
-                                    numberOfLines={10}
+                                    numberOfLines={11}
                                     textAlignVertical='top'
                                     value={this.state.commenter}
                                     onChange={this.createCommenter}
@@ -229,7 +229,8 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 1,
         padding: 10,
-        fontSize: 18,
+        fontSize: 16,
+        fontFamily: 'Montserrat-Regular'
     },
     containerInput: {
         paddingHorizontal: 15,
@@ -237,8 +238,8 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor:'#87CEFA',
-        width: 253,
-        height: "30%",
+        width: "40%",
+        height: "29%",
         shadowColor: '#000',
         shadowOffset: {width: 1, height: 8},
         shadowOpacity: 0.5,
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
     },
     containerButton:{
         alignItems: 'center',
-        top: '12%'
+        top: '13%'
     },
     errorText: {
         color: 'red',
