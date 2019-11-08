@@ -126,11 +126,13 @@ class History extends Component {
                                                 style={{display: "flex", justifyContent: 'space-between', width: '100%', height:'100%'}}
                                                 onPress={this.handleDelete(item)}
                                             >
-                                                <Text style={{fontSize: 18, fontFamily: 'Montserrat-Regular'}}>Excluir</Text>
-                                                <Image source={teste} style={{width: 18, height: 18, left: '85%', bottom: '85%'}} />
+                                                <Text style={{fontSize: 16, fontFamily: 'Montserrat-Regular'}}>Excluir</Text>
+                                                <Image source={teste} style={{width: 15, height: 15, left: '85%', bottom: '90%'}} />
                                             </TouchableOpacity>} 
                                         backgroundColor='rgba(207, 89, 89, 0.8)'  
                                         overlayColor='rgba(255, 255, 255, 0.95)'
+                                        width={100}
+                                        height={37}
                                     >
                                         <StressCard style={styles.fellingCard} item={item}/>
                                     </Tooltip>
