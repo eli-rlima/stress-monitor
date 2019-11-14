@@ -112,79 +112,79 @@ class Stress extends Component {
                                 <Spinner 
                                     visible={this.state.isVisible}
                                 />                   
-                                <View style={{top: '40%'}}>
+                                <View style={styles.header}>
                                     {this.state.error 
                                     ? <Text style={styles.errorText}>Preencha os campos adequadamente</Text> 
                                     : <Text></Text>}
                                 </View>
                             </View>
                             <View>
-                                <View style={{justifyContent: "flex-start", alignItems: "flex-start", height: 0}}>
+                                <View style={styles.columnLeft}>
                                     <CheckBox 
                                         title='Alteração no sono' 
                                         checked={this.state.checkedSpleep} 
                                         onPress={() => {this.setState({checkedSpleep: !this.state.checkedSpleep})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
+                                        containerStyle={styles.containerLeft}
                                         checkedColor='black'
-                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
+                                        textStyle={styles.line}
                                     />
                                     <CheckBox 
                                         title='Tensão Muscular' 
                                         checked={this.state.checkedMuscle} 
                                         onPress={() => {this.setState({checkedMuscle: !this.state.checkedMuscle})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
+                                        containerStyle={styles.containerLeft}
                                         checkedColor='black'
-                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
+                                        textStyle={styles.line}
                                     />
                                     <CheckBox 
                                         title='Formigamentos' 
                                         checked={this.state.checkedTingling} 
                                         onPress={() => {this.setState({checkedTingling: !this.state.checkedTingling})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
+                                        containerStyle={styles.containerLeft}
                                         checkedColor='black'
-                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
+                                        textStyle={styles.line}
                                     />
                                     <CheckBox 
                                         title='Palpitações' 
                                         checked={this.state.checkedPalpitations} 
                                         onPress={() => {this.setState({checkedPalpitations: !this.state.checkedPalpitations})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 150, height: 30, borderWidth: 0}}
+                                        containerStyle={styles.containerLeft}
                                         checkedColor='black'
-                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
+                                        textStyle={styles.line}
                                     />
                                 </View>
-                                <View style={{justifyContent: "flex-start", alignItems: "flex-end"}}>
+                                <View style={styles.columnRight}>
                                     <CheckBox 
                                         title='Desgaste muscular' 
                                         checked={this.state.checkedMuscleWear} 
                                         onPress={() => {this.setState({checkedMuscleWear: !this.state.checkedMuscleWear})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 170, height: 30, borderWidth: 0}}
+                                        containerStyle={styles.containerRight}
                                         checkedColor='black'
-                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
+                                        textStyle={styles.line}
                                     />
                                     <CheckBox 
                                         title='Ansiedade' 
                                         checked={this.state.checkedAnxiety} 
                                         onPress={() => {this.setState({checkedAnxiety: !this.state.checkedAnxiety})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 170, height: 30, borderWidth: 0}}
+                                        containerStyle={styles.containerRight}
                                         checkedColor='black'
-                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
+                                        textStyle={styles.line}
                                     />
                                     <CheckBox 
                                         title='Mudança no apetite' 
                                         checked={this.state.checkedAppetite} 
                                         onPress={() => {this.setState({checkedAppetite: !this.state.checkedAppetite})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 170, height: 30, borderWidth: 0}}
+                                        containerStyle={styles.containerRight}
                                         checkedColor='black'
-                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
+                                        textStyle={styles.line}
                                     />
                                     <CheckBox 
                                         title='Alterações de humor' 
                                         checked={this.state.checkedHumor} 
                                         onPress={() => {this.setState({checkedHumor: !this.state.checkedHumor})}}
-                                        containerStyle={{backgroundColor: 'transparent', width: 170, height: 30, borderWidth: 0}}
+                                        containerStyle={styles.containerRight}
                                         checkedColor='black'
-                                        textStyle={{fontFamily: 'Montserrat-Medium', fontSize: 14, fontWeight: '200'}}
+                                        textStyle={styles.line}
                                     />
                                 </View>
                             </View>
@@ -262,6 +262,35 @@ const styles = StyleSheet.create({
         color: 'red',
         fontFamily: 'Montserrat-SemiBold'
     },
+    line: {
+        fontFamily: 'Montserrat-Medium', 
+        fontSize: 14, 
+        fontWeight: '200'
+    },
+    columnRight: {
+        justifyContent: "flex-start", 
+        alignItems: "flex-end"
+    },
+    columnLeft: {
+        justifyContent: "flex-start", 
+        alignItems: "flex-start", 
+        height: 0
+    },
+    containerLeft: {
+        backgroundColor: 'transparent', 
+        width: 150, 
+        height: 30, 
+        borderWidth: 0
+    },
+    containerRight: {
+        backgroundColor: 'transparent', 
+        width: 170, 
+        height: 30, 
+        borderWidth: 0
+    },
+    header: {
+        top: '40%'
+    }
 });
 
 export default Stress;

@@ -53,6 +53,9 @@ const HistoryNavigator = createStackNavigator({
     History: {
         screen: History,
     },
+    Open: {
+        screen: Main,
+    }
 }, {
     initialRouteName: 'History',
     mode: "modal"

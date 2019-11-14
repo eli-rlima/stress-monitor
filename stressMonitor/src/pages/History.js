@@ -1,12 +1,11 @@
 // Global
 import React, {Fragment, Component} from 'react';
 import { SafeAreaView, StyleSheet, View, Text, StatusBar, TouchableOpacity, 
-    ScrollView, Image, FlatList } from 'react-native';
+    FlatList } from 'react-native';
 import * as _ from 'lodash';
 import { DrawerActions } from 'react-navigation-drawer'
 import AsyncStorage from '@react-native-community/async-storage';
 import { isAfter, parseISO } from 'date-fns';
-import { Tooltip } from 'react-native-elements';
 // Assets
 import Logo from '../assets/Logo';
 import Menu from '../assets/Menu';
@@ -14,15 +13,14 @@ import StressCard from '../components/StressCard';
 import Spinner from 'react-native-loading-spinner-overlay';
 // Api
 import Api from '../api';
-import { Icon } from 'react-native-vector-icons/AntDesign';
-import teste from '../assets/delete.png';
+
 
 class History extends Component {
     constructor(props) {
         super(props);
         this.state = {
             stresses: [],
-            isVisible: false
+            isVisible: false,
         }
     }
 
@@ -68,7 +66,6 @@ class History extends Component {
         });
     }
 
-
     componentDidMount() {
         this.initialState();
         AsyncStorage.getItem('user').then(user => {
@@ -94,6 +91,10 @@ class History extends Component {
         });
     };
 
+    handleOpen = () => {
+        this.props.navigation.navigate('Open');
+    }
+
     render() {
         let { stresses } = this.state;
         let stressesU = _.uniqWith(stresses, _.isEqual);
@@ -105,6 +106,7 @@ class History extends Component {
             }                    
         });
         return (
+            
             <Fragment>
                 <StatusBar backgroundColor="#87CEFA" />
                 <SafeAreaView>
@@ -119,23 +121,8 @@ class History extends Component {
                             data={stressesU}
                             keyExtractor={stress => stress.key}
                             renderItem={({ item }) => (
-                                <TouchableOpacity onPress={() => {}}>
-                                    <Tooltip 
-                                        popover={
-                                            <TouchableOpacity 
-                                                style={{display: "flex", justifyContent: 'space-between', width: '100%', height:'100%'}}
-                                                onPress={this.handleDelete(item)}
-                                            >
-                                                <Text style={{fontSize: 16, fontFamily: 'Montserrat-Regular'}}>Excluir</Text>
-                                                <Image source={teste} style={{width: 15, height: 15, left: '85%', bottom: '90%'}} />
-                                            </TouchableOpacity>} 
-                                        backgroundColor='rgba(207, 89, 89, 0.8)'  
-                                        overlayColor='rgba(255, 255, 255, 0.95)'
-                                        width={100}
-                                        height={37}
-                                    >
-                                        <StressCard style={styles.fellingCard} item={item}/>
-                                    </Tooltip>
+                                <TouchableOpacity onPress={this.handleOpen}>
+                                    <StressCard item={item} />
                                 </TouchableOpacity>
                             )}
                         ></FlatList>
