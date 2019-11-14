@@ -30,7 +30,7 @@ class History extends Component {
             <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
                 <Menu />
             </TouchableOpacity>
-        )
+        ),
     });
 
     initialState () {
@@ -58,6 +58,7 @@ class History extends Component {
                     });
                     this.setState({ stresses: stresses });
                     this.setState({ isVisible: false });
+                    this.props.navigation.navigate('History');
                 }, error => {
                     this.setState({ isVisible: false });
                     console.log(error);
@@ -90,9 +91,9 @@ class History extends Component {
             });
         });
     };
-
-    handleOpen = () => {
-        this.props.navigation.navigate('Open');
+    
+    handleOpen = stress => () => {
+        this.props.navigation.navigate('Open', { stress: stress, handleDelete: this.handleDelete });
     }
 
     render() {
@@ -121,7 +122,7 @@ class History extends Component {
                             data={stressesU}
                             keyExtractor={stress => stress.key}
                             renderItem={({ item }) => (
-                                <TouchableOpacity onPress={this.handleOpen}>
+                                <TouchableOpacity onPress={this.handleOpen(item)}>
                                     <StressCard item={item} />
                                 </TouchableOpacity>
                             )}

@@ -15,6 +15,7 @@ import GoodBye from '../pages/GoodBye';
 import HeaderDrawer from '../components/HeaderDrawer';
 import ForgetPass from '../components/Modal/ForgetPassword';
 import Stress from '../pages/Stress';
+import OpenStress from '../pages/OpenStress';
 // Assets
 import iHome from '../assets/home.png';
 import iHistory from '../assets/iHistory';
@@ -54,7 +55,7 @@ const HistoryNavigator = createStackNavigator({
         screen: History,
     },
     Open: {
-        screen: Main,
+        screen: OpenStress,
     }
 }, {
     initialRouteName: 'History',
