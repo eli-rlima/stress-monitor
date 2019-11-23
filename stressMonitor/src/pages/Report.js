@@ -1,17 +1,33 @@
 // Global
 import React, {Fragment, Component} from 'react';
 import { SafeAreaView, StyleSheet, View, Text, StatusBar, TouchableOpacity, 
-    ScrollView, Image } from 'react-native';
+    Picker } from 'react-native';
 import * as _ from 'lodash';
 import { DrawerActions } from 'react-navigation-drawer'
+import AsyncStorage from '@react-native-community/async-storage';
+import { parseISO, getMonth } from 'date-fns';
+import Dictionary from '../lib/utils/Dictionary';
 // Assets
 import Frame from '../assets/Frame';
 import Logo from '../assets/Logo';
 import Menu from '../assets/Menu';
+// Components
+import Spinner from 'react-native-loading-spinner-overlay';
 // Api
 import firebase from 'react-native-firebase';
+import Api from '../api';
 
 class Main extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isVisible: false,
+            stresses: [],
+            months: [],
+            monthSelected: '',
+        }
+    };
 
     static navigationOptions = ({ navigation }) => ({
         headerTitle: (Logo),
@@ -22,16 +38,86 @@ class Main extends Component {
         )
     });
 
+    componentDidMount() {
+        this.setState({ isVisible: true });
+        AsyncStorage.getItem('user').then(user => {
+            const currentUser = user;
+            const stresses = [];
+            const months = [];
+            Api.database().ref('Stresses/').on("value", payload => {
+                payload.forEach(stress => {
+                    if (stress.val().uid === currentUser) {
+                        const stressN = {
+                            key: stress.key,
+                            data: stress.val()
+                        }
+                        stresses.push(stressN);
+                        let numberMonth = getMonth(parseISO(stress.val().createdAt));
+                        const month = {
+                            name: Dictionary.get(numberMonth),
+                            value: numberMonth
+                        }
+                        months.push(month);
+                    }
+                });
+                this.setState({ months: months });
+                this.setState({ stresses: stresses });
+                this.setState({ isVisible: false });
+            }, error => {
+                this.setState({ isVisible: false });
+                console.log(error);
+            });
+        });
+    };
+
+    handleMonth = month => {
+        const { data } = this.state.stresses;
+    }
+
     render() {
+        const { months } = this.state;
+        
         return (
             <Fragment>
                 <StatusBar backgroundColor="#87CEFA" />
                 <SafeAreaView>
-                    <ScrollView>
-                        <View style={{alignItems: "center", justifyContent: "center"}}>
-                            <Text>Relatório</Text>
+                    <View style={{ height: '100%' }}>
+                        <View style={styles.hearder}>
+                            <Text style={styles.text}>Relatórios</Text>
                         </View>
-                    </ScrollView>
+                        <Spinner 
+                            visible={this.state.isVisible}
+                        />
+                        <View>
+                            <View style={{ justifyContent: "flex-start", alignItems: "flex-start", height: 0, top: '26%', left: '10%' }}>
+                                <Text style={{ fontFamily: 'Montserrat-Regular', fontSize: 20 }}>
+                                    Mês:
+                                </Text>
+                            </View>
+                            <View style={{ justifyContent: "flex-start", alignItems: "center", top: '10%' }}>
+                                <Picker
+                                    selectedValue={this.state.monthSelected}
+                                    style={{height: 50, width: 150 }}
+                                    onValueChange={(item) => {
+                                            this.setState({ monthSelected: item });
+                                        }
+                                    }
+                                    mode="dropdown"
+                                >
+                                    {months.map(item => {
+                                        return(<Picker.Item label={`${item.name}`} value={item.value} key={item.value} />);
+                                    })}
+                                </Picker>
+                            </View>
+                            <View style={{ justifyContent: "flex-start", alignItems: "flex-end", bottom: '40%', right: '3%' }}>
+                                <TouchableOpacity style={{ width: 90, height: 30, backgroundColor: 'rgba(133, 205, 250, 0.7)', borderRadius: 5 }}>
+                                    <Text style={{textAlign: "center", fontSize: 20, top: '12%'}}>
+                                        Gerar
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
                 </SafeAreaView>
             </Fragment>
         );        
@@ -42,9 +128,8 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         textAlign: "justify",
         fontSize: 20,
-        paddingHorizontal: 35,
-        bottom: 250,
-        fontFamily: 'Montserrat-Regular'
+        paddingVertical: 15,
+        fontFamily: 'Montserrat-SemiBold'
     },
     button: {
         backgroundColor:'#87CEFA',
@@ -69,6 +154,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         bottom: 100,
     },
+    hearder: {
+        alignItems: "center", 
+        justifyContent: "center",
+        backgroundColor: 'rgba(133, 205, 250, 0.6)'
+    }
 });
 
 export default Main;
