@@ -5,7 +5,7 @@ import { SafeAreaView, StyleSheet, View, Text, StatusBar, TouchableOpacity,
 import * as _ from 'lodash';
 import { DrawerActions } from 'react-navigation-drawer'
 import AsyncStorage from '@react-native-community/async-storage';
-import { parseISO, getMonth } from 'date-fns';
+import { parseISO, getMonth, isAfter, getYear } from 'date-fns';
 import Dictionary from '../lib/utils/Dictionary';
 // Assets
 import Frame from '../assets/Frame';
@@ -25,7 +25,10 @@ class Main extends Component {
             isVisible: false,
             stresses: [],
             months: [],
+            years: [],
             monthSelected: '',
+            yearSelected: '',
+            stressFiltered: [],
         }
     };
 
@@ -44,6 +47,7 @@ class Main extends Component {
             const currentUser = user;
             const stresses = [];
             const months = [];
+            const years = [];
             Api.database().ref('Stresses/').on("value", payload => {
                 payload.forEach(stress => {
                     if (stress.val().uid === currentUser) {
@@ -53,15 +57,21 @@ class Main extends Component {
                         }
                         stresses.push(stressN);
                         let numberMonth = getMonth(parseISO(stress.val().createdAt));
+                        let numberYear = getYear(parseISO(stress.val().createdAt))
                         const month = {
                             name: Dictionary.get(numberMonth),
-                            value: numberMonth
+                            value: numberMonth,
                         }
                         months.push(month);
+                        const year = {
+                            year: numberYear,
+                        }
+                        years.push(year);
                     }
                 });
-                this.setState({ months: months });
-                this.setState({ stresses: stresses });
+                const monthsFiltered = _.uniqWith(months, _.isEqual);
+                const yearsFiltered = _.uniqWith(years, _.isEqual);
+                this.setState({ months: monthsFiltered, years: yearsFiltered, stresses: stresses });
                 this.setState({ isVisible: false });
             }, error => {
                 this.setState({ isVisible: false });
@@ -70,12 +80,21 @@ class Main extends Component {
         });
     };
 
-    handleMonth = month => {
-        const { data } = this.state.stresses;
+    handleMonth = month => () => {
+        const { stresses } = this.state;
+        const stressFiltered = stresses.filter(stress => getMonth(parseISO(stress.data.createdAt)) === month);
+        stressFiltered.sort(function(a, b) {
+            if (isAfter(parseISO(a.data.createdAt), parseISO(b.data.createdAt))) {
+                return -1;
+            }else {
+                return 1;
+            }                    
+        });
+        this.setState({ stressFiltered: stressFiltered});
     }
 
     render() {
-        const { months } = this.state;
+        const { months, years } = this.state;
         
         return (
             <Fragment>
@@ -89,15 +108,35 @@ class Main extends Component {
                             visible={this.state.isVisible}
                         />
                         <View>
-                            <View style={{ justifyContent: "flex-start", alignItems: "flex-start", height: 0, top: '26%', left: '10%' }}>
+                            <View style={{ justifyContent: "flex-start", alignItems: "flex-start", height: 0, top: '20%', left: '5%' }}>
+                                <Text style={{ fontFamily: 'Montserrat-Regular', fontSize: 20 }}>
+                                    Ano:
+                                </Text>
+                            </View>
+                            <View style={{ justifyContent: "flex-start", alignItems: "center", top: '13%', right: '5%' }}>
+                                <Picker
+                                    selectedValue={this.state.yearSelected}
+                                    style={{height: 40, width: 150 }}
+                                    onValueChange={(item) => {
+                                            this.setState({ yearSelected: item });
+                                        }
+                                    }
+                                    mode="dropdown"
+                                >
+                                    {years.map(item => {
+                                        return(<Picker.Item label={`${item.year}`} value={item.year} key={item.year} />);
+                                    })}
+                                </Picker>
+                            </View>
+                            <View style={{ justifyContent: "flex-start", alignItems: "flex-start", height: 0, top: '20%', left: '5%' }}>
                                 <Text style={{ fontFamily: 'Montserrat-Regular', fontSize: 20 }}>
                                     Mês:
                                 </Text>
                             </View>
-                            <View style={{ justifyContent: "flex-start", alignItems: "center", top: '10%' }}>
+                            <View style={{ justifyContent: "flex-start", alignItems: "center", top: '13%', right: '5%' }}>
                                 <Picker
                                     selectedValue={this.state.monthSelected}
-                                    style={{height: 50, width: 150 }}
+                                    style={{height: 40, width: 150 }}
                                     onValueChange={(item) => {
                                             this.setState({ monthSelected: item });
                                         }
@@ -109,9 +148,12 @@ class Main extends Component {
                                     })}
                                 </Picker>
                             </View>
-                            <View style={{ justifyContent: "flex-start", alignItems: "flex-end", bottom: '40%', right: '3%' }}>
-                                <TouchableOpacity style={{ width: 90, height: 30, backgroundColor: 'rgba(133, 205, 250, 0.7)', borderRadius: 5 }}>
-                                    <Text style={{textAlign: "center", fontSize: 20, top: '12%'}}>
+                            <View style={{ justifyContent: "flex-start", alignItems: "flex-end", bottom: '35%', right: '5%' }}>
+                                <TouchableOpacity 
+                                    style={{ width: 90, height: 30, backgroundColor: 'rgba(133, 205, 250, 0.7)', borderRadius: 5 }}
+                                    onPress={this.handleMonth(this.state.monthSelected)}
+                                    >
+                                    <Text style={{ textAlign: "center", fontSize: 20, top: '12%', fontFamily: 'Montserrat-Regular' }}>
                                         Gerar
                                     </Text>
                                 </TouchableOpacity>
