@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { DrawerActions } from 'react-navigation-drawer'
 import AsyncStorage from '@react-native-community/async-storage';
 import { parseISO, getMonth, isAfter, getYear } from 'date-fns';
+// lib
 import Dictionary from '../lib/utils/Dictionary';
 // Assets
 import Frame from '../assets/Frame';
@@ -23,12 +24,14 @@ class Main extends Component {
         super(props);
         this.state = {
             isVisible: false,
+            isVisisbleMonth: false,
             stresses: [],
             months: [],
             years: [],
             monthSelected: '',
             yearSelected: '',
-            stressFiltered: [],
+            stressFilteredByMonth: [],
+            stressFilteredByYear: [],
         }
     };
 
@@ -46,7 +49,7 @@ class Main extends Component {
         AsyncStorage.getItem('user').then(user => {
             const currentUser = user;
             const stresses = [];
-            const months = [];
+            // const months = [];
             const years = [];
             Api.database().ref('Stresses/').on("value", payload => {
                 payload.forEach(stress => {
@@ -58,20 +61,34 @@ class Main extends Component {
                         stresses.push(stressN);
                         let numberMonth = getMonth(parseISO(stress.val().createdAt));
                         let numberYear = getYear(parseISO(stress.val().createdAt))
-                        const month = {
-                            name: Dictionary.get(numberMonth),
-                            value: numberMonth,
-                        }
-                        months.push(month);
+                        // const month = {
+                        //     name: Dictionary.get(numberMonth),
+                        //     value: numberMonth,
+                        // }
+                        // months.push(month);
                         const year = {
                             year: numberYear,
                         }
                         years.push(year);
                     }
                 });
-                const monthsFiltered = _.uniqWith(months, _.isEqual);
-                const yearsFiltered = _.uniqWith(years, _.isEqual);
-                this.setState({ months: monthsFiltered, years: yearsFiltered, stresses: stresses });
+                // let monthsFiltered = _.uniqWith(months, _.isEqual);
+                let yearsFiltered = _.uniqWith(years, _.isEqual);
+                // monthsFiltered.sort(function(a, b) {
+                //     if (a.value > b.value) {
+                //         return -1;
+                //     }else {
+                //         return 1;
+                //     }                    
+                // });
+                yearsFiltered.sort(function(a, b) {
+                    if (a.year > b.year) {
+                        return -1;
+                    }else {
+                        return 1;
+                    }                    
+                });
+                this.setState({ years: yearsFiltered, stresses: stresses });
                 this.setState({ isVisible: false });
             }, error => {
                 this.setState({ isVisible: false });
@@ -80,10 +97,39 @@ class Main extends Component {
         });
     };
 
-    handleMonth = month => () => {
+    handleYear = year => {
         const { stresses } = this.state;
-        const stressFiltered = stresses.filter(stress => getMonth(parseISO(stress.data.createdAt)) === month);
-        this.setState({ stressFiltered: stressFiltered });
+        const stressFilteredByYear = stresses.filter(stress => getYear(parseISO(stress.data.createdAt)) === year);
+        console.log("stress: ", stressFilteredByYear);
+        this.setState({ stressFilteredByYear: stressFilteredByYear });
+        const months = [];
+        stressFilteredByYear.map(stress => {
+            let numberMonth = getMonth(parseISO(stress.data.createdAt));
+            const month = {
+                name: Dictionary.get(numberMonth),
+                value: numberMonth,
+            }
+            months.push(month);
+        });
+        let monthsFiltered = _.uniqWith(months, _.isEqual);
+        monthsFiltered.sort(function(a, b) {
+            if (a.value > b.value) {
+                return -1;
+            }else {
+                return 1;
+            }                    
+        });
+        this.setState({ months: monthsFiltered, isVisisbleMonth: true });
+    }
+
+    updateMonths = () => {
+        
+    }
+
+    handleMonth = month => () => {
+        const { stressFilteredByYear } = this.state;
+        const stressFilteredByMonth = stressFilteredByYear.filter(stress => getMonth(parseISO(stress.data.createdAt)) === month);
+        this.setState({ stressFilteredByMonth: stressFilteredByMonth });
     }
 
     render() {
@@ -112,6 +158,7 @@ class Main extends Component {
                                     style={{height: 40, width: 150 }}
                                     onValueChange={(item) => {
                                             this.setState({ yearSelected: item });
+                                            this.handleYear(item);
                                         }
                                     }
                                     mode="dropdown"
@@ -135,6 +182,8 @@ class Main extends Component {
                                         }
                                     }
                                     mode="dropdown"
+                                    enabled={this.state.isVisisbleMonth}
+                                    on
                                 >
                                     {months.map(item => {
                                         return(<Picker.Item label={`${item.name}`} value={item.value} key={item.value} />);
@@ -144,7 +193,7 @@ class Main extends Component {
                             <View style={{ justifyContent: "flex-start", alignItems: "flex-end", bottom: '35%', right: '5%' }}>
                                 <TouchableOpacity 
                                     style={{ width: 90, height: 30, backgroundColor: 'rgba(133, 205, 250, 0.7)', borderRadius: 5 }}
-                                    onPress={this.handleMonth(this.state.monthSelected)}
+                                    onPress={() => {}}
                                     >
                                     <Text style={{ textAlign: "center", fontSize: 20, top: '12%', fontFamily: 'Montserrat-Regular' }}>
                                         Gerar
