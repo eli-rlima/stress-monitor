@@ -43,6 +43,7 @@ class Login extends Component {
                     this.props.navigation.navigate('menu');
                 } else {
                     this.setState({ errorMail: true });
+                    firebase.auth().currentUser.sendEmailVerification();
                 }
             })
             .catch(err => {
