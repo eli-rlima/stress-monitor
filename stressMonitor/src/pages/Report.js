@@ -83,14 +83,7 @@ class Main extends Component {
     handleMonth = month => () => {
         const { stresses } = this.state;
         const stressFiltered = stresses.filter(stress => getMonth(parseISO(stress.data.createdAt)) === month);
-        stressFiltered.sort(function(a, b) {
-            if (isAfter(parseISO(a.data.createdAt), parseISO(b.data.createdAt))) {
-                return -1;
-            }else {
-                return 1;
-            }                    
-        });
-        this.setState({ stressFiltered: stressFiltered});
+        this.setState({ stressFiltered: stressFiltered });
     }
 
     render() {
