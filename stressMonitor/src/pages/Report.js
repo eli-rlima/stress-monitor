@@ -49,7 +49,6 @@ class Main extends Component {
         AsyncStorage.getItem('user').then(user => {
             const currentUser = user;
             const stresses = [];
-            // const months = [];
             const years = [];
             Api.database().ref('Stresses/').on("value", payload => {
                 payload.forEach(stress => {
@@ -59,28 +58,14 @@ class Main extends Component {
                             data: stress.val()
                         }
                         stresses.push(stressN);
-                        let numberMonth = getMonth(parseISO(stress.val().createdAt));
                         let numberYear = getYear(parseISO(stress.val().createdAt))
-                        // const month = {
-                        //     name: Dictionary.get(numberMonth),
-                        //     value: numberMonth,
-                        // }
-                        // months.push(month);
                         const year = {
                             year: numberYear,
                         }
                         years.push(year);
                     }
                 });
-                // let monthsFiltered = _.uniqWith(months, _.isEqual);
                 let yearsFiltered = _.uniqWith(years, _.isEqual);
-                // monthsFiltered.sort(function(a, b) {
-                //     if (a.value > b.value) {
-                //         return -1;
-                //     }else {
-                //         return 1;
-                //     }                    
-                // });
                 yearsFiltered.sort(function(a, b) {
                     if (a.year > b.year) {
                         return -1;
@@ -100,7 +85,6 @@ class Main extends Component {
     handleYear = year => {
         const { stresses } = this.state;
         const stressFilteredByYear = stresses.filter(stress => getYear(parseISO(stress.data.createdAt)) === year);
-        console.log("stress: ", stressFilteredByYear);
         this.setState({ stressFilteredByYear: stressFilteredByYear });
         const months = [];
         stressFilteredByYear.map(stress => {
@@ -120,10 +104,6 @@ class Main extends Component {
             }                    
         });
         this.setState({ months: monthsFiltered, isVisisbleMonth: true });
-    }
-
-    updateMonths = () => {
-        
     }
 
     handleMonth = month => () => {
