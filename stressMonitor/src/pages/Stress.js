@@ -10,13 +10,14 @@ import Api from '../api';
 // Assets
 import Logo from '../assets/Logo';
 import Menu from '../assets/Menu';
+// Components
 import Spinner from 'react-native-loading-spinner-overlay';
 
 class Stress extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            checkedSpleep: false,
+            checkedSleep: false,
             checkedMuscle: false,
             checkedTingling: false,
             checkedPalpitations: false,
@@ -41,7 +42,7 @@ class Stress extends Component {
 
     initialState = () => {
         this.setState({
-            checkedSpleep: false,
+            checkedSleep: false,
             checkedMuscle: false,
             checkedTingling: false,
             checkedPalpitations: false,
@@ -56,12 +57,12 @@ class Stress extends Component {
     }
 
     createStress = () => {
-        const { checkedMuscle, checkedSpleep, checkedAnxiety, checkedAppetite, checkedHumor
+        const { checkedMuscle, checkedSleep, checkedAnxiety, checkedAppetite, checkedHumor
             , checkedMuscleWear, checkedPalpitations, checkedTingling, commenter } = this.state;
         AsyncStorage.getItem('user').then(user => {
             this.setState({ isVisible: true });
             const currentUser = user;
-            if (!checkedMuscle && !checkedSpleep && !checkedAnxiety && !checkedAppetite 
+            if (!checkedMuscle && !checkedSleep && !checkedAnxiety && !checkedAppetite 
                 && !checkedHumor && !checkedMuscleWear && !checkedPalpitations && !checkedTingling) {
                 this.setState({ isVisible: false });
                 this.setState({ error: true });
@@ -70,7 +71,7 @@ class Stress extends Component {
                 Api.database().ref('Stresses/').push({
                     checkedAnxiety,
                     checkedMuscle,
-                    checkedSpleep,
+                    checkedSleep,
                     checkedAppetite,
                     checkedHumor, 
                     checkedMuscleWear,
@@ -78,7 +79,7 @@ class Stress extends Component {
                     checkedTingling,
                     commenter,
                     uid: currentUser,
-                    createdAt: new Date(),
+                    createdAt: new Date(2019, 8, 26),
                 }).then(payload => {
                     this.initialState();
                     this.props.navigation.navigate('History');
@@ -122,8 +123,8 @@ class Stress extends Component {
                                 <View style={styles.columnLeft}>
                                     <CheckBox 
                                         title='Alteração no sono' 
-                                        checked={this.state.checkedSpleep} 
-                                        onPress={() => {this.setState({checkedSpleep: !this.state.checkedSpleep})}}
+                                        checked={this.state.checkedSleep} 
+                                        onPress={() => {this.setState({checkedSleep: !this.state.checkedSleep})}}
                                         containerStyle={styles.containerLeft}
                                         checkedColor='black'
                                         textStyle={styles.line}
