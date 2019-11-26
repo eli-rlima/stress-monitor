@@ -151,7 +151,7 @@ const AppNavigator = createSwitchNavigator({
         screen: MenuNavigator,
     }
 }, {
-    initialRouteName: 'menu'
+    initialRouteName: 'home'
 });
 
 export default createAppContainer(AppNavigator);
