@@ -130,7 +130,7 @@ const MenuNavigator = createDrawerNavigator({
     drawerWidth: '80%',
     drawerType: "slide",
     contentComponent: HeaderDrawer,
-    initialRouteName: 'Report'
+    initialRouteName: 'Home'
 });
 
 const AppNavigator = createSwitchNavigator({
