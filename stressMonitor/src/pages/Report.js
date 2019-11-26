@@ -148,7 +148,7 @@ class Main extends PureComponent {
 
     handleGenerate = month => () => {
         const { stressFilteredByYear, yearSelected } = this.state;
-        // this.handleYear(yearSelected);
+        this.handleYear(yearSelected);
         const stressFilteredByMonth = stressFilteredByYear.filter(stress => getMonth(parseISO(stress.data.createdAt)) === month);
         const countSymptoms = [];
         let spleepCount = 0;
@@ -311,7 +311,7 @@ class Main extends PureComponent {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        {data.length > 0 
+                        {stresses.length > 0 
                         && <ScrollView>
                             <View style={{ paddingVertical: '2%' }}>
                                 <View style={{ padding: '3%' }}>
@@ -324,23 +324,25 @@ class Main extends PureComponent {
                                         );
                                     })}
                                 </View>
-                                <View style={{ justifyContent: "flex-start", alignItems: "center" }}>
-                                    <Text style={{ fontFamily: 'Montserrat-Medium', fontSize: 18, textDecorationLine: 'underline', textAlign: 'center' }}>
-                                        Curva da quantidade sintomas por estresse
-                                    </Text>
-                                </View>
-                                <View style={{ paddingHorizontal: 10 }}>
-                                    <AreaChart
-                                        style={{ height: 200 }}
-                                        data={ data }
-                                        curve={shape.curveCardinal}
-                                        svg={{ fill: 'rgba(133, 205, 250, 0.2)' }}
-                                        contentInset={{ top: 20, bottom: 30 }}
-                                    >
-                                        <Line/>
-                                        <Decorator/>
-                                    </AreaChart>
-                                </View>
+                                {data.length > 3 && <View>
+                                    <View style={{ justifyContent: "flex-start", alignItems: "center" }}>
+                                        <Text style={{ fontFamily: 'Montserrat-Medium', fontSize: 18, textDecorationLine: 'underline', textAlign: 'center' }}>
+                                            Curva da quantidade sintomas por estresse
+                                        </Text>
+                                    </View>
+                                    <View style={{ paddingHorizontal: 10 }}>
+                                        <AreaChart
+                                            style={{ height: 200 }}
+                                            data={ data }
+                                            curve={shape.curveCardinal}
+                                            svg={{ fill: 'rgba(133, 205, 250, 0.2)' }}
+                                            contentInset={{ top: 20, bottom: 30 }}
+                                        >
+                                            <Line/>
+                                            <Decorator/>
+                                        </AreaChart>
+                                    </View>
+                                </View>}
                             </View>
                         </ScrollView>}
                     </View>

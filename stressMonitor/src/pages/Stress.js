@@ -79,7 +79,7 @@ class Stress extends Component {
                     checkedTingling,
                     commenter,
                     uid: currentUser,
-                    createdAt: new Date(2019, 8, 26),
+                    createdAt: new Date(),
                 }).then(payload => {
                     this.initialState();
                     this.props.navigation.navigate('History');
