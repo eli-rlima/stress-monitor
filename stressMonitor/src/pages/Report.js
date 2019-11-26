@@ -88,62 +88,64 @@ class Main extends PureComponent {
     };
 
     handleYear = year => {
-        this.setState({ isVisible: true });
-        AsyncStorage.getItem('user').then(user => {
-            const currentUser = user;
-            const stresses = [];
-            const years = [];
-            Api.database().ref('Stresses/').on("value", payload => {
-                payload.forEach(stress => {
-                    if (stress.val().uid === currentUser) {
-                        const stressN = {
-                            key: stress.key,
-                            data: stress.val()
+        if (year) {
+            this.setState({ isVisible: true });
+            AsyncStorage.getItem('user').then(user => {
+                const currentUser = user;
+                const stresses = [];
+                const years = [];
+                Api.database().ref('Stresses/').on("value", payload => {
+                    payload.forEach(stress => {
+                        if (stress.val().uid === currentUser) {
+                            const stressN = {
+                                key: stress.key,
+                                data: stress.val()
+                            }
+                            stresses.push(stressN);
+                            let numberYear = getYear(parseISO(stress.val().createdAt))
+                            const year = {
+                                year: numberYear,
+                            }
+                            years.push(year);
                         }
-                        stresses.push(stressN);
-                        let numberYear = getYear(parseISO(stress.val().createdAt))
-                        const year = {
-                            year: numberYear,
-                        }
-                        years.push(year);
-                    }
+                    });
+                    let yearsFiltered = _.uniqWith(years, _.isEqual);
+                    yearsFiltered.sort(function(a, b) {
+                        if (a.year > b.year) {
+                            return -1;
+                        }else {
+                            return 1;
+                        }                    
+                    });
+                    this.setState({ years: yearsFiltered, stresses: stresses });
+                    this.setState({ isVisible: false });
+                }, error => {
+                    this.setState({ isVisible: false });
+                    console.log(error);
                 });
-                let yearsFiltered = _.uniqWith(years, _.isEqual);
-                yearsFiltered.sort(function(a, b) {
-                    if (a.year > b.year) {
-                        return -1;
-                    }else {
-                        return 1;
-                    }                    
-                });
-                this.setState({ years: yearsFiltered, stresses: stresses });
-                this.setState({ isVisible: false });
-            }, error => {
-                this.setState({ isVisible: false });
-                console.log(error);
             });
-        });
-        const { stresses } = this.state;
-        const stressFilteredByYear = stresses.filter(stress => getYear(parseISO(stress.data.createdAt)) === year);
-        this.setState({ stressFilteredByYear: stressFilteredByYear });
-        const months = [];
-        stressFilteredByYear.map(stress => {
-            let numberMonth = getMonth(parseISO(stress.data.createdAt));
-            const month = {
-                name: Dictionary.get(numberMonth),
-                value: numberMonth,
-            }
-            months.push(month);
-        });
-        let monthsFiltered = _.uniqWith(months, _.isEqual);
-        monthsFiltered.sort(function(a, b) {
-            if (a.value > b.value) {
-                return -1;
-            }else {
-                return 1;
-            }                    
-        });
-        this.setState({ months: monthsFiltered, isVisisbleMonth: true });
+            const { stresses } = this.state;
+            const stressFilteredByYear = stresses.filter(stress => getYear(parseISO(stress.data.createdAt)) === year);
+            this.setState({ stressFilteredByYear: stressFilteredByYear });
+            const months = [];
+            stressFilteredByYear.map(stress => {
+                let numberMonth = getMonth(parseISO(stress.data.createdAt));
+                const month = {
+                    name: Dictionary.get(numberMonth),
+                    value: numberMonth,
+                }
+                months.push(month);
+            });
+            let monthsFiltered = _.uniqWith(months, _.isEqual);
+            monthsFiltered.sort(function(a, b) {
+                if (a.value > b.value) {
+                    return -1;
+                }else {
+                    return 1;
+                }                    
+            });
+            this.setState({ months: monthsFiltered, isVisisbleMonth: true });
+        }
     }
 
     handleGenerate = month => () => {
@@ -161,7 +163,7 @@ class Main extends PureComponent {
         let humorCount = 0;
         stressFilteredByMonth.forEach(stress => {
             let count = 0;
-            if (stress.data.checkedSpleep) {
+            if (stress.data.checkedSleep) {
                 spleepCount += 1;
             }
             if (stress.data.checkedMuscle) {
@@ -311,19 +313,19 @@ class Main extends PureComponent {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        {stresses.length > 0 
-                        && <ScrollView>
+                        <ScrollView>
                             <View style={{ paddingVertical: '2%' }}>
-                                <View style={{ padding: '3%' }}>
+                            {data.length > 0
+                            && <View style={{ padding: '3%' }}>
                                     <Text style={{ fontFamily: 'Montserrat-Medium', fontSize: 18, textDecorationLine: 'underline', textAlign: 'center', paddingBottom: '1%' }}>
                                         Quantidade de vezes que o sintomas surgiram durante o mês
                                     </Text>
                                     {stresses.map(stress => {
                                         return (
-                                            <Text style={{ fontFamily: 'Montserrat-Regular', fontSize: 16, paddingBottom: 2 }}>{stress.name}: {stress.count}</Text>
+                                            <Text style={{ fontFamily: 'Montserrat-Regular', fontSize: 16, paddingBottom: 2 }} key={stress.name}>{stress.name}: {stress.count}</Text>
                                         );
                                     })}
-                                </View>
+                                </View>}
                                 {data.length > 3 && <View>
                                     <View style={{ justifyContent: "flex-start", alignItems: "center" }}>
                                         <Text style={{ fontFamily: 'Montserrat-Medium', fontSize: 18, textDecorationLine: 'underline', textAlign: 'center' }}>
@@ -344,7 +346,7 @@ class Main extends PureComponent {
                                     </View>
                                 </View>}
                             </View>
-                        </ScrollView>}
+                        </ScrollView>
                     </View>
                 </SafeAreaView>
             </Fragment>

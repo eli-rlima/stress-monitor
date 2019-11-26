@@ -46,7 +46,7 @@ class Stress extends Component {
                                 <View style={styles.columnLeft}>
                                     <CheckBox 
                                         title='Alteração no sono' 
-                                        checked={stress.data.checkedSpleep} 
+                                        checked={stress.data.checkedSleep} 
                                         containerStyle={styles.containerLeft}
                                         checkedColor='black'
                                         textStyle={styles.line}
