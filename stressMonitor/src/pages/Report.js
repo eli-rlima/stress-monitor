@@ -171,8 +171,6 @@ class Main extends PureComponent {
     handleGenerate = (month, year) => () => {
         this.handleYear(year);
         const { stressFilteredByYear } = this.state;
-        console.log(stressFilteredByYear);
-        
         let stressFilteredByMonth = stressFilteredByYear.filter(stress => getMonth(parseISO(stress.data.createdAt)) === month);
         const countSymptoms = [];
         let spleepCount = 0;
