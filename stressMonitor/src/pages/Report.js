@@ -49,11 +49,28 @@ class Main extends PureComponent {
         )
     });
 
+    initialState() {
+        this.setState({
+            isVisible: false,
+            isVisisbleMonth: false,
+            stresses: [],
+            months: [],
+            years: [],
+            monthSelected: '',
+            yearSelected: '',
+            stressFilteredByMonth: [],
+            stressFilteredByYear: [],
+            stressesCount: [],
+            stressesData: {},
+        });
+    }
+
     componentDidMount() {
+        this.initialState();
         this.setState({ isVisible: true });
         AsyncStorage.getItem('user').then(user => {
             const currentUser = user;
-            const stresses = [];
+            let stresses = [];
             const years = [];
             Api.database().ref('Stresses/').on("value", payload => {
                 payload.forEach(stress => {
@@ -80,6 +97,7 @@ class Main extends PureComponent {
                 });
                 this.setState({ years: yearsFiltered, stresses: stresses });
                 this.setState({ isVisible: false });
+                stresses = [];
             }, error => {
                 this.setState({ isVisible: false });
                 console.log(error);
@@ -92,7 +110,7 @@ class Main extends PureComponent {
             this.setState({ isVisible: true });
             AsyncStorage.getItem('user').then(user => {
                 const currentUser = user;
-                const stresses = [];
+                let stresses = [];
                 const years = [];
                 Api.database().ref('Stresses/').on("value", payload => {
                     payload.forEach(stress => {
@@ -102,7 +120,7 @@ class Main extends PureComponent {
                                 data: stress.val()
                             }
                             stresses.push(stressN);
-                            let numberYear = getYear(parseISO(stress.val().createdAt))
+                            let numberYear = getYear(parseISO(stress.val().createdAt));
                             const year = {
                                 year: numberYear,
                             }
@@ -118,6 +136,7 @@ class Main extends PureComponent {
                         }                    
                     });
                     this.setState({ years: yearsFiltered, stresses: stresses });
+                    stresses = [];
                     this.setState({ isVisible: false });
                 }, error => {
                     this.setState({ isVisible: false });
@@ -125,7 +144,7 @@ class Main extends PureComponent {
                 });
             });
             const { stresses } = this.state;
-            const stressFilteredByYear = stresses.filter(stress => getYear(parseISO(stress.data.createdAt)) === year);
+            let stressFilteredByYear = stresses.filter(stress => getYear(parseISO(stress.data.createdAt)) === year);
             this.setState({ stressFilteredByYear: stressFilteredByYear });
             const months = [];
             stressFilteredByYear.map(stress => {
@@ -136,6 +155,7 @@ class Main extends PureComponent {
                 }
                 months.push(month);
             });
+            stressFilteredByYear = [];
             let monthsFiltered = _.uniqWith(months, _.isEqual);
             monthsFiltered.sort(function(a, b) {
                 if (a.value > b.value) {
@@ -148,10 +168,12 @@ class Main extends PureComponent {
         }
     }
 
-    handleGenerate = month => () => {
-        const { stressFilteredByYear, yearSelected } = this.state;
-        this.handleYear(yearSelected);
-        const stressFilteredByMonth = stressFilteredByYear.filter(stress => getMonth(parseISO(stress.data.createdAt)) === month);
+    handleGenerate = (month, year) => () => {
+        this.handleYear(year);
+        const { stressFilteredByYear } = this.state;
+        console.log(stressFilteredByYear);
+        
+        let stressFilteredByMonth = stressFilteredByYear.filter(stress => getMonth(parseISO(stress.data.createdAt)) === month);
         const countSymptoms = [];
         let spleepCount = 0;
         let muscleCount = 0;
@@ -161,6 +183,7 @@ class Main extends PureComponent {
         let anxietyCount = 0;
         let appetiteCount = 0;
         let humorCount = 0;
+        
         stressFilteredByMonth.forEach(stress => {
             let count = 0;
             if (stress.data.checkedSleep) {
@@ -196,6 +219,7 @@ class Main extends PureComponent {
             }
             countSymptoms.push(count);
         });
+        
         const stresses = {
             spleep: {name: 'Alteração no sono', count: spleepCount},
             muscle: {name: 'Tensão Muscular', count: muscleCount},
@@ -206,7 +230,6 @@ class Main extends PureComponent {
             appetite: {name: 'Mudança de Apetite', count: appetiteCount},
             humor: {name: 'Alterações de humor', count: humorCount},
         }
-        
         this.setState({ stressesCount: countSymptoms, stressesData: stresses });
     }
 
@@ -215,12 +238,8 @@ class Main extends PureComponent {
         const data = [];
         const stresses = [];
 
-        let count = 1;
         stressesCount.forEach(stress => {
-            if (count <= 5) {
                 data.push(stress);
-                count += 1;
-            }
         });
 
         for (let key in stressesData) {
@@ -305,7 +324,7 @@ class Main extends PureComponent {
                             <View style={{ justifyContent: "flex-start", alignItems: "flex-end", bottom: '35%', right: '5%' }}>
                                 <TouchableOpacity 
                                     style={{ width: 90, height: 30, backgroundColor: 'rgba(133, 205, 250, 0.7)', borderRadius: 5 }}
-                                    onPress={this.handleGenerate(this.state.monthSelected)}
+                                    onPress={this.handleGenerate(this.state.monthSelected, this.state.yearSelected)}
                                     >
                                     <Text style={{ textAlign: "center", fontSize: 20, top: '12%', fontFamily: 'Montserrat-Regular' }}>
                                         Gerar
